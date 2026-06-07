@@ -681,6 +681,30 @@
   }
   .chat-input-area textarea:focus { outline: none; border-color: var(--i-color); }
 
+  /* Amankan container output target dari penarikan Flexbox */
+#chatEvalOutput {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+/* Variasi warna badge tambahan untuk rapor */
+.badge-dark { background-color: #f1f5f9; color: #334155; }
+
+/* Warna teks khusus untuk konten evaluasi */
+#chatEvalOutput .text-red { color: #991b1b; font-weight: 500; }
+#chatEvalOutput .text-blue { color: #0369a1; font-weight: 600; }
+#chatEvalOutput .text-dark { color: #475569; }
+#chatEvalOutput .text-green { color: #0f766e; }
+
+/* Penyelarasan posisi tengah untuk komponen skor */
+.text-center {
+  text-align: center !important;
+}
+
   /* ===== SCENARIO SELECTOR ===== */
   .scenario-grid {
     display: grid;
@@ -1390,45 +1414,65 @@ Output ONLY the monologue text, no labels or explanations.`
   btn.textContent = '✨ Generate Teks';
 }
 
+let mobileTimer = null; // Variabel global untuk menyimpan timer Android
+
 function speakScript() {
   const script = document.getElementById('shadowScript');
   if (!script) return;
   const text = script.innerText;
-  stopScript();
+  stopScript(); // Pastikan menghentikan timer/suara sebelumnya
 
   const words = document.querySelectorAll('.word');
+  let wordIndex = 0;
 
   currentUtterance = new SpeechSynthesisUtterance(text);
   currentUtterance.lang = 'en-US';
   currentUtterance.rate = 0.85;
 
-  // Gunakan onboundary dengan pencocokan indeks karakter (charIndex)
-  currentUtterance.onboundary = (e) => {
-    // Kita hanya memproses boundary jika yang dibaca adalah sebuah kata ('word')
-    if (e.name === 'word') {
-      const charIndex = e.charIndex;
-      let currentCharCount = 0;
+  // Cek apakah user menggunakan perangkat Mobile (Android/iOS)
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-      // Cari kata mana yang cocok dengan posisi karakter saat ini
-      words.forEach((w, index) => {
-        w.classList.remove('highlighted');
-        
-        // Cari posisi awal kata di dalam teks utuh
-        const wordStart = text.indexOf(w.innerText, currentCharCount);
-        
-        if (wordStart !== -1) {
-          // Jika charIndex berada di dalam rentang kata ini
-          if (charIndex >= wordStart && charIndex < wordStart + w.innerText.length) {
-            w.classList.add('highlighted');
+  if (isMobile) {
+    // --- SOLUSI UNTUK ANDROID: PENGATURAN TIMING MANUAL ---
+    // Estimasi durasi per kata dalam milidetik (sesuaikan dengan rate 0.85)
+    const msPerWord = 450; 
+
+    // Jalankan highlight manual menggunakan interval
+    mobileTimer = setInterval(() => {
+      if (wordIndex < words.length) {
+        words.forEach(w => w.classList.remove('highlighted'));
+        words[wordIndex].classList.add('highlighted');
+        wordIndex++;
+      } else {
+        clearInterval(mobileTimer);
+      }
+    }, msPerWord);
+
+  } else {
+    // --- UNTUK DESKTOP (CHROME/SAFARI PC): TETAP GUNAKAN ONBOUNDARY ---
+    currentUtterance.onboundary = (e) => {
+      if (e.name === 'word') {
+        const charIndex = e.charIndex;
+        let currentCharCount = 0;
+
+        words.forEach((w) => {
+          w.classList.remove('highlighted');
+          const wordStart = text.indexOf(w.innerText, currentCharCount);
+          if (wordStart !== -1) {
+            if (charIndex >= wordStart && charIndex < wordStart + w.innerText.length) {
+              w.classList.add('highlighted');
+            }
+            currentCharCount = wordStart + w.innerText.length;
           }
-          // Perbarui counter untuk pencarian kata berikutnya agar tidak duplikat
-          currentCharCount = wordStart + w.innerText.length;
-        }
-      });
-    }
-  };
+        });
+      }
+    };
+  }
 
+  // Event ketika suara selesai
   currentUtterance.onend = () => {
+    if (mobileTimer) clearInterval(mobileTimer); // Hentikan timer mobile jika ada
+    
     words.forEach(w => { 
       w.classList.remove('highlighted'); 
       w.classList.add('done'); 
@@ -1440,6 +1484,16 @@ function speakScript() {
   speechSynth.speak(currentUtterance);
   document.getElementById('btnPlayScript').style.display = 'none';
   document.getElementById('btnStopScript').style.display = 'inline-flex';
+}
+
+// Pastikan fungsi stopScript() juga membersihkan interval timer
+function stopScript() {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+  if (mobileTimer) {
+    clearInterval(mobileTimer);
+  }
 }
 
 function stopScript() {
@@ -1911,20 +1965,79 @@ async function endChat() {
   document.getElementById('chatEvalCard').style.display = 'block';
 
   const out = document.getElementById('chatEvalOutput');
-  out.textContent = '';
-  out.classList.add('loading');
+  
+  // Setel status loading awal
+  out.innerHTML = '<div class="loading-spinner">Menganalisis percakapan dan menyusun rapor evaluasi...</div>';
 
   try {
-    const convoText = chatHistory.filter(m => m.role === 'user' && !m.parts[0].text.startsWith('You are')).map(m => `User: ${m.parts[0].text}`).join('\n');
-    const result = await callGemini(
-      `Evaluasi sesi percakapan bahasa Inggris ini (skenario: ${currentScenario}):\n\n${convoText}\n\nBerikan evaluasi dalam bahasa Indonesia:\n1. **Overall Speaking Score** (1-10)\n2. **Fluency**: Kelancaran & alur percakapan\n3. **Vocabulary Usage**: Variasi & ketepatan kata\n4. **Communication Success**: Apakah pesan tersampaikan dengan baik\n5. **Top 3 Strengths**: Yang sudah bagus\n6. **Focus Area for Next Session**: 1 hal utama yang perlu dilatih\n7. **Skenario Recommended**: Skenario berikutnya yang cocok`
-    );
+    const convoText = chatHistory
+      .filter(m => m.role === 'user' && !m.parts[0].text.startsWith('You are'))
+      .map(m => `User: ${m.parts[0].text}`)
+      .join('\n');
+
+    // Prompt dipaksa menghasilkan JSON agar data konsisten masuk ke tabel
+    const prompt = `Evaluasi sesi percakapan bahasa Inggris ini (skenario: ${currentScenario}):\n\n${convoText}\n\nBerikan evaluasi dalam bahasa Indonesia berbentuk JSON objek dengan format persis seperti ini, tanpa teks tambahan di luar JSON:\n{\n  "score": "Skor keseluruhan (angka 1-10)",\n  "fluency": "Analisis kelancaran & alur percakapan",\n  "vocabulary": "Analisis variasi & ketepatan kata",\n  "communication": "Analisis apakah pesan tersampaikan dengan baik",\n  "strengths": "Top 3 kelebihan/hal yang sudah bagus",\n  "focus": "1 hal utama yang paling krusial untuk dilatih berikutnya",\n  "next_scenario": "Rekomendasi skenario latihan selanjutnya yang cocok"\n}`;
+
+    const result = await callGemini(prompt);
+    
+    // Bersihkan sisa pembungkus markdown JSON jika ada
+    const cleanJsonString = result.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(cleanJsonString);
+
     out.classList.remove('loading');
-    out.textContent = result;
+
+    // Render output dalam bentuk struktur Tabel Multi-Kolom yang aman dari flexbox melar
+    out.innerHTML = `
+      <div class="table-isolate-wrapper">
+        <div class="table-container" style="max-width: 850px;">
+          <table class="practice-table">
+            <thead>
+              <tr>
+                <th colspan="3" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
+                  📊 Rapor Evaluasi Percakapan (${currentScenario})
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="3" class="text-center" style="padding: 15px !important; border-bottom: 2px solid #e2e8f0;">
+                  <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px;">Overall Speaking Score</span>
+                  <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 5px;">
+                    ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
+                  </div>
+                </td>
+              </tr>
+              <tr style="background-color: #f8fafc;">
+                <th width="33%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🗣️ Fluency</th>
+                <th width="34%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">📚 Vocabulary</th>
+                <th width="33%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🎯 Communication</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569;">${data.fluency}</td>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569;">${data.vocabulary}</td>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569;">${data.communication}</td>
+              </tr>
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">⭐ Strengths</th>
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">⚠️ Focus Area</th>
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🚀 Next Scenario</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #0f766e; font-weight: 500;">${data.strengths}</td>
+                <td style="padding: 12px 14px !important; color: #991b1b; font-weight: 500;">${data.focus}</td>
+                <td style="padding: 12px 14px !important; color: #0369a1; font-weight: 600;">${data.next_scenario}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
     updateProgress('I');
   } catch (e) {
+    console.error(e);
     out.classList.remove('loading');
-    out.textContent = '❌ Error: ' + e.message;
+    out.innerHTML = `<div class="error-msg">❌ Gagal memuat evaluasi: ${e.message}</div>`;
   }
 }
 
