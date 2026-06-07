@@ -77,7 +77,7 @@
 
   .logo-sub {
     font-size: 11px;
-    color: var(--text-muted);
+    color: var(--surface);
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 300;
@@ -332,7 +332,6 @@
     line-height: 1.75;
     color: var(--text);
     min-height: 80px;
-    white-space: pre-wrap;
     position: relative;
   }
 
@@ -370,6 +369,104 @@
   }
 
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* PAKSA RESET TOTAL PADA ID OUTPUT */
+#phrasalPracticeOutput {
+  display: block !important;    /* Matikan fungsi flexbox jika diwarisi dari parent */
+  height: auto !important;     /* Hapus paksaan tinggi penuh */
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+/* Container Utama Tabel */
+.table-container {
+  display: block !important;
+  width: 100%;
+  max-width: 100%;
+  margin: 15px auto !important;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  height: auto !important;     /* Kunci agar tinggi mengikuti jumlah baris */
+}
+
+/* Reset Struktur Tabel */
+.practice-table {
+  width: 100% !important;
+  height: auto !important;      /* Kunci mati */
+  border-collapse: collapse !important;
+  font-size: 13.5px !important;
+  text-align: left;
+  table-layout: fixed;
+}
+
+/* Reset Semua Baris dan Sel */
+.practice-table tr,
+.practice-table th, 
+.practice-table td {
+  height: auto !important;      /* Hapus semua height: 100% atau flex dari template */
+  min-height: 0 !important;
+  padding: 10px 14px !important;
+  line-height: 1.4 !important;
+  vertical-align: top !important; /* Teks dipaksa rata atas */
+}
+
+.practice-table th {
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.practice-table tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Atur Isi Blok Paragraf */
+.phrase-block {
+  margin-top: 0 !important;
+  margin-bottom: 8px !important;
+  padding-left: 4px;
+  height: auto !important;
+}
+.phrase-block:last-child {
+  margin-bottom: 0 !important;
+}
+
+.phrase-block small {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 2px !important;
+}
+
+/* Hapus margin bawaan tag P yang melar */
+.phrase-block p, 
+.context-cell,
+.practice-table td p {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4 !important;
+}
+
+.context-cell {
+  font-weight: normal;
+  color: #334155;
+  font-style: normal !important;
+}
+
+.main-phrase p { color: #1e40af; font-style: italic; }
+.alt-phrase p { color: #0f766e; font-style: italic; }
+
 
   /* ===== PHASE S: SHADOWING ===== */
   .script-box {
@@ -414,6 +511,28 @@
     height: 48px;
     resize: none;
   }
+
+  /* Amankan container output target dari penarikan Flexbox */
+#shadowFeedbackOutput {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+/* Aturan warna khusus teks teks coach di dalam tabel */
+#shadowFeedbackOutput .main-phrase p {
+  color: #1e293b; /* Warna teks gelap netral untuk penjelasan teknik */
+  font-style: normal;
+}
+
+#shadowFeedbackOutput .alt-phrase p {
+  color: #0f766e; /* Warna hijau gelap untuk penanda latihan konkret */
+  font-style: normal;
+  font-weight: 600;
+}
 
   /* ===== PHRASAL BANK ===== */
   .phrasals-grid {
@@ -1278,22 +1397,42 @@ function speakScript() {
   stopScript();
 
   const words = document.querySelectorAll('.word');
-  let wordIndex = 0;
 
   currentUtterance = new SpeechSynthesisUtterance(text);
   currentUtterance.lang = 'en-US';
   currentUtterance.rate = 0.85;
 
+  // Gunakan onboundary dengan pencocokan indeks karakter (charIndex)
   currentUtterance.onboundary = (e) => {
-    words.forEach(w => w.classList.remove('highlighted'));
-    if (words[wordIndex]) {
-      words[wordIndex].classList.add('highlighted');
-      wordIndex++;
+    // Kita hanya memproses boundary jika yang dibaca adalah sebuah kata ('word')
+    if (e.name === 'word') {
+      const charIndex = e.charIndex;
+      let currentCharCount = 0;
+
+      // Cari kata mana yang cocok dengan posisi karakter saat ini
+      words.forEach((w, index) => {
+        w.classList.remove('highlighted');
+        
+        // Cari posisi awal kata di dalam teks utuh
+        const wordStart = text.indexOf(w.innerText, currentCharCount);
+        
+        if (wordStart !== -1) {
+          // Jika charIndex berada di dalam rentang kata ini
+          if (charIndex >= wordStart && charIndex < wordStart + w.innerText.length) {
+            w.classList.add('highlighted');
+          }
+          // Perbarui counter untuk pencarian kata berikutnya agar tidak duplikat
+          currentCharCount = wordStart + w.innerText.length;
+        }
+      });
     }
   };
 
   currentUtterance.onend = () => {
-    words.forEach(w => { w.classList.remove('highlighted'); w.classList.add('done'); });
+    words.forEach(w => { 
+      w.classList.remove('highlighted'); 
+      w.classList.add('done'); 
+    });
     document.getElementById('btnPlayScript').style.display = 'inline-flex';
     document.getElementById('btnStopScript').style.display = 'none';
   };
@@ -1315,18 +1454,66 @@ async function getShadowFeedback() {
 
   document.getElementById('shadowFeedbackArea').style.display = 'block';
   const out = document.getElementById('shadowFeedbackOutput');
-  out.textContent = '';
-  out.classList.add('loading');
+  
+  // Setel status loading awal
+  out.innerHTML = '<div class="loading-spinner">Menganalisis dan menyusun feedback coach...</div>';
 
   try {
-    const result = await callGemini(
-      `Kamu adalah coach speaking English yang berpengalaman. Seorang learner Indonesia memberikan feedback tentang kesulitan shadowing mereka:\n\n"${input}"\n\nBerikan feedback yang spesifik dan actionable dalam bahasa Indonesia. Sertakan:\n1. Penjelasan kenapa ini terjadi\n2. Teknik spesifik untuk mengatasinya (dengan contoh)\n3. Latihan konkret yang bisa langsung dicoba\n\nGunakan bahasa yang encouraging dan praktis.`
-    );
-    out.classList.remove('loading');
-    out.textContent = result;
+    // Prompt diubah ke format JSON agar data aman dan konsisten masuk ke tabel
+    const prompt = `Seorang learner Indonesia memberikan feedback tentang kesulitan shadowing mereka: "${input}"
+    
+    Bertindaklah sebagai coach speaking English berpengalaman. Berikan feedback spesifik dan actionable dalam bentuk JSON array dengan format persis seperti ini, tanpa teks tambahan di luar JSON:
+    [
+      {
+        "analisis": "Penjelasan detail kenapa kesulitan ini bisa terjadi",
+        "teknik": "Teknik spesifik untuk mengatasinya beserta contoh pengucapannya menggunakan lidah orang indonesia",
+        "latihan": "Latihan konkret yang bisa langsung dicoba saat ini juga"
+      }
+    ]`;
+
+    const result = await callGemini(prompt);
+    
+    // Bersihkan sisa pembungkus markdown JSON jika ada
+    const cleanJsonString = result.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(cleanJsonString);
+
+    // Render output ke dalam struktur tabel terisolasi yang padat
+    out.innerHTML = `
+      <div class="table-isolate-wrapper">
+        <div class="table-container">
+          <table class="practice-table">
+            <thead>
+              <tr>
+                <th width="33%">🔍 Penyebab (Kenapa Terjadi)</th>
+                <th width="34%">🛠️ Teknik Coach (Tips & Contoh)</th>
+                <th width="33%">🎯 Latihan Konkret (Actionable)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.map(item => `
+                <tr>
+                  <td class="context-cell">${item.analisis}</td>
+                  <td>
+                    <div class="phrase-block main-phrase">
+                      <p>${item.teknik}</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="phrase-block alt-phrase">
+                      <p>${item.latihan}</p>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
   } catch (e) {
-    out.classList.remove('loading');
-    out.textContent = '❌ Error: ' + e.message;
+    console.error(e);
+    out.innerHTML = `<div class="error-msg">❌ Gagal memuat feedback: ${e.message}</div>`;
   }
 }
 
@@ -1398,18 +1585,62 @@ async function practicePhraseWithAI() {
 
   document.getElementById('phrasalPracticeArea').style.display = 'block';
   const out = document.getElementById('phrasalPracticeOutput');
-  out.textContent = '';
-  out.classList.add('loading');
+  
+  out.innerHTML = '<div class="loading-spinner">Membuat tabel latihan...</div>';
 
   try {
-    const result = await callGemini(
-      `Buat 3 situasi latihan untuk menggunakan frasa ini: "${phrase}"\n\nUntuk setiap situasi:\n1. Deskripsikan konteks (dalam bahasa Indonesia)\n2. Berikan contoh kalimat lengkap yang menggunakan frasa tersebut (dalam bahasa Inggris)\n3. Berikan 1 variasi alternatif\n\nBuat situasinya relevan untuk profesional Indonesia.`
-    );
-    out.classList.remove('loading');
-    out.textContent = result;
+    const prompt = `Buat 3 situasi latihan menggunakan frasa: "${phrase}" untuk profesional Indonesia. 
+    Berikan output dalam bentuk JSON array dengan format berikut tanpa teks tambahan:
+    [
+      {
+        "konteks": "Deskripsi situasi",
+        "contoh": "Kalimat utama Inggris",
+        "alternatif": "Variasi kalimat Inggris"
+      }
+    ]`;
+
+    const result = await callGemini(prompt);
+    const cleanJsonString = result.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(cleanJsonString);
+
+    // Render output dalam bentuk struktur Tabel HTML yang kokoh dan terisolasi
+out.innerHTML = `
+  <div class="table-isolate-wrapper">
+    <div class="table-container">
+      <table class="practice-table">
+        <thead>
+          <tr>
+            <th width="8%">No</th>
+            <th width="42%">📌 Konteks Kerja (ID)</th>
+            <th width="50%">🗣️ Praktik Kalimat (EN)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map((item, index) => `
+            <tr>
+              <td class="text-center font-bold">${index + 1}</td>
+              <td class="context-cell">${item.konteks}</td>
+              <td>
+                <div class="phrase-block main-phrase">
+                  <small>Kalimat Utama:</small>
+                  <p>"${item.contoh}"</p>
+                </div>
+                <div class="phrase-block alt-phrase">
+                  <small>Variasi Alternatif:</small>
+                  <p>"${item.alternatif}"</p>
+                </div>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+`;
+
   } catch (e) {
-    out.classList.remove('loading');
-    out.textContent = '❌ Error: ' + e.message;
+    console.error(e);
+    out.innerHTML = `<div class="error-msg">❌ Gagal memuat tabel: ${e.message}</div>`;
   }
 }
 
@@ -1575,6 +1806,7 @@ Rules:
 
 function addChatBubble(role, text) {
   const chatBox = document.getElementById('chatBox');
+  let textToSpeak = ''; // Hanya diisi jika peran adalah AI
 
   if (role === 'ai' && text.includes('[📝 Koreksi:')) {
     const parts = text.split(/\[📝 Koreksi:/);
@@ -1586,6 +1818,9 @@ function addChatBubble(role, text) {
       bubble.className = 'chat-msg ai';
       bubble.textContent = mainText;
       chatBox.appendChild(bubble);
+      
+      // Hanya ambil teks utama AI untuk dibacakan
+      textToSpeak = mainText;
     }
     if (correction) {
       const corrBubble = document.createElement('div');
@@ -1593,6 +1828,7 @@ function addChatBubble(role, text) {
       corrBubble.textContent = '📝 Koreksi: ' + correction;
       chatBox.appendChild(corrBubble);
     }
+
   } else if (role === 'ai' && text.includes('[✅')) {
     const parts = text.split(/\[✅[^\]]*\]/);
     const mainText = parts[0].trim();
@@ -1601,6 +1837,9 @@ function addChatBubble(role, text) {
       bubble.className = 'chat-msg ai';
       bubble.textContent = mainText;
       chatBox.appendChild(bubble);
+      
+      // Hanya ambil teks utama AI untuk dibacakan
+      textToSpeak = mainText;
     }
     const okBubble = document.createElement('div');
     okBubble.className = 'chat-msg correction';
@@ -1609,14 +1848,28 @@ function addChatBubble(role, text) {
     okBubble.style.background = 'rgba(102,187,106,0.08)';
     okBubble.textContent = '✅ Grammar bagus!';
     chatBox.appendChild(okBubble);
+
   } else {
     const bubble = document.createElement('div');
     bubble.className = `chat-msg ${role}`;
     bubble.textContent = text;
     chatBox.appendChild(bubble);
+    
+    // Jika role bukan 'ai' (misal 'user'), textToSpeak tetap kosong
+    if (role === 'ai') {
+      textToSpeak = text;
+    }
   }
 
   chatBox.scrollTop = chatBox.scrollHeight;
+
+  // Eksekusi suara hanya jika variabel textToSpeak terisi (khusus chat-msg ai)
+  if (textToSpeak) {
+    window.speechSynthesis.cancel(); 
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'id-ID'; // Ganti ke 'en-US' jika teks mayoritas bahasa Inggris
+    window.speechSynthesis.speak(utterance);
+  }
 }
 
 async function sendChatMsg() {
