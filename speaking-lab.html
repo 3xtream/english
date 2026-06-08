@@ -200,6 +200,37 @@
     font-size: 18px;
   }
 
+  /* Amankan container target dari penarikan Flexbox vertikal */
+#newPhrasalsOutput {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+/* Memaksa tabel patuh pada persentase width kolom secara mutlak */
+#newPhrasalsOutput .practice-table {
+  table-layout: fixed !important;
+}
+
+#newPhrasalsOutput .practice-table td {
+  vertical-align: middle !important; /* Membuat posisi vertikal konten di tengah baris agar rapi */
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1.4 !important;
+  word-wrap: break-word;
+}
+
+/* Pewarnaan badge kategori agar kontras */
+#newPhrasalsOutput .badge-dark {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  display: inline-block;
+}
+
   /* ===== MAIN CONTENT ===== */
   .main {
     max-width: 1100px;
@@ -532,6 +563,36 @@
   color: #0f766e; /* Warna hijau gelap untuk penanda latihan konkret */
   font-style: normal;
   font-weight: 600;
+}
+
+  /* ===== Coach Output ===*/
+  /* Amankan container target dari penarikan Flexbox vertikal */
+#coachOutput {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+/* Memaksa pembagian dua kolom rata 50% secara mutlak */
+#coachOutput .practice-table {
+  table-layout: fixed !important;
+}
+
+#coachOutput .practice-table th,
+#coachOutput .practice-table td {
+  text-align: left;
+  vertical-align: top !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1.5 !important;
+  word-wrap: break-word;
+}
+
+#coachOutput .text-center {
+  text-align: center !important;
 }
 
   /* ===== PHRASAL BANK ===== */
@@ -899,6 +960,97 @@
     color: var(--r-color);
     flex-shrink: 0;
   }
+  
+  /* Amankan container target dari penarikan Flexbox vertikal */
+#monologueOutput {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+/* Memaksa pembagian dua kolom rata 50% secara mutlak */
+#monologueOutput .practice-table {
+  table-layout: fixed !important;
+}
+
+#monologueOutput .practice-table th,
+#monologueOutput .practice-table td {
+  text-align: left;
+  vertical-align: top !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1.4 !important;
+  word-wrap: break-word;
+}
+
+#monologueOutput .text-center {
+  text-align: center !important;
+}
+
+
+  /* ====== Strategi No Filler ==== */
+  /* Amankan container target dari penarikan Flexbox vertikal */
+#prepOutput {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+/* Memaksa pembagian dua kolom rata 50% secara mutlak */
+#prepOutput .practice-table {
+  table-layout: fixed !important;
+}
+
+#prepOutput .practice-table th,
+#prepOutput .practice-table td {
+  text-align: left;
+  vertical-align: top !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1.5 !important;
+  word-wrap: break-word;
+}
+
+#prepOutput .text-center {
+  text-align: center !important;
+}
+
+
+  /* ====== Debrief ======*/
+  /* Amankan container target dari penarikan Flexbox vertikal */
+#debriefOutput {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+/* Memaksa pembagian dua kolom rata 50% secara mutlak */
+#debriefOutput .practice-table {
+  table-layout: fixed !important;
+}
+
+#debriefOutput .practice-table th,
+#debriefOutput .practice-table td {
+  text-align: left;
+  vertical-align: top !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1.5 !important;
+  word-wrap: break-word;
+}
+
+#debriefOutput .text-center {
+  text-align: center !important;
+}
 
   /* ===== ACCORDION FOR STEPS ===== */
   .steps-list {
@@ -1618,18 +1770,69 @@ async function generateNewPhrases() {
 
   document.getElementById('newPhrasalsArea').style.display = 'block';
   const out = document.getElementById('newPhrasalsOutput');
-  out.textContent = '';
-  out.classList.add('loading');
+  
+  // Setel status loading awal
+  out.innerHTML = '<div class="loading-spinner">Membuat daftar frasa native...</div>';
 
   try {
-    const result = await callGemini(
-      `Generate 6 highly useful English filler phrases and signposting expressions specifically for this situation: "${situation}"\n\nFormat each as:\n[CATEGORY] | [PHRASE] | [Kapan digunakan (bahasa Indonesia)]\n\nMake them practical, natural, and immediately usable. Focus on phrases native speakers actually use, not textbook English.`
-    );
+    // Prompt dipaksa menghasilkan JSON agar data konsisten masuk ke tabel kolom
+    const prompt = `Generate 6 highly useful English filler phrases and signposting expressions specifically for this situation: "${situation}"
+    
+    Berikan output dalam bentuk JSON array dengan format persis seperti ini tanpa teks tambahan di luar JSON:
+    [
+      {
+        "category": "CATEGORY",
+        "phrase": "PHRASE",
+        "usage": "Kapan digunakan (bahasa Indonesia)"
+      }
+    ]
+    
+    Make them practical, natural, and immediately usable. Focus on phrases native speakers actually use, not textbook English.`;
+
+    const result = await callGemini(prompt);
+    
+    // Bersihkan sisa pembungkus markdown JSON jika ada
+    const cleanJsonString = result.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(cleanJsonString);
+
     out.classList.remove('loading');
-    out.textContent = result;
+
+    // Render output dalam bentuk struktur Tabel Multi-Kolom kaku
+    out.innerHTML = `
+      <div class="table-isolate-wrapper">
+        <div class="table-container" style="max-width: 100%">
+          <table class="practice-table">
+            <thead>
+              <tr>
+                <th width="25%">📁 Kategori</th>
+                <th width="35%">🗣️ Expression / Phrase</th>
+                <th width="40%">💡 Kapan Digunakan</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.map(item => `
+                <tr>
+                  <td>
+                    <span class="section-badge badge-dark" style="font-size: 10px;">${item.category}</span>
+                  </td>
+                  <td style="color: #1e40af; font-weight: 600; font-style: italic; font-size: 14px;">
+                    "${item.phrase}"
+                  </td>
+                  <td class="context-cell" style="color: #475569;">
+                    ${item.usage}
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
   } catch (e) {
+    console.error(e);
     out.classList.remove('loading');
-    out.textContent = '❌ Error: ' + e.message;
+    out.innerHTML = `<div class="error-msg">❌ Gagal memuat frasa: ${e.message}</div>`;
   }
 }
 
@@ -1770,18 +1973,83 @@ async function evaluateMonologue() {
   const area = document.getElementById('monologueResultArea');
   area.classList.add('visible');
   const out = document.getElementById('monologueOutput');
-  out.textContent = '';
-  out.classList.add('loading');
+  
+  // Setel status loading awal
+  out.innerHTML = '<div class="loading-spinner">Menganalisis monolog dan menyusun hasil evaluasi...</div>';
 
   try {
-    const result = await callGemini(
-      `Kamu adalah coach fluency English. Seorang learner baru saja melakukan monolog 60 detik dalam bahasa Inggris tentang "${currentTopic || 'topik pilihan'}". Ini adalah catatan/transkrip mereka:\n\n"${text}"\n\nBerikan evaluasi yang encouraging dan konkret dalam bahasa Indonesia:\n\n1. **Fluency Score** (1-10): Estimasi kelancaran berdasarkan deskripsi\n2. **Yang Sudah Bagus**: 2-3 hal positif spesifik\n3. **Area Improvement**: 2 hal konkret yang bisa ditingkatkan\n4. **Quick Fix**: 1 teknik yang bisa langsung diterapkan di sesi berikutnya\n5. **Topik Berikutnya**: Rekomendasikan topik yang lebih menantang untuk sesi selanjutnya\n\nJaga tone yang supportive dan motivating.`
-    );
+    // Prompt dipaksa menghasilkan JSON agar data konsisten masuk ke tabel kolom
+    const prompt = `Kamu adalah coach fluency English. Seorang learner baru saja melakukan monolog 60 detik dalam bahasa Inggris tentang "${currentTopic || 'topik pilihan'}". Ini adalah catatan/transkrip mereka:
+    "${text}"
+    
+    Berikan evaluasi yang encouraging dan konkret berbentuk JSON objek dengan format persis seperti ini tanpa teks tambahan di luar JSON:
+    {
+      "score": "Skor kelancaran (angka 1-10)",
+      "good": "2-3 hal positif spesifik yang sudah bagus",
+      "improve": "2 hal konkret yang bisa ditingkatkan",
+      "fix": "1 teknik quick fix yang bisa langsung diterapkan di sesi berikutnya",
+      "next_topic": "Rekomendasi topik yang lebih menantang untuk sesi selanjutnya"
+    }
+    
+    Jaga tone yang supportive dan motivating.`;
+
+    const result = await callGemini(prompt);
+    
+    // Bersihkan sisa pembungkus markdown JSON jika ada
+    const cleanJsonString = result.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(cleanJsonString);
+
     out.classList.remove('loading');
-    out.textContent = result;
+
+    // Render output ke dalam struktur tabel multi-kolom horizontal kaku
+    out.innerHTML = `
+      <div class="table-isolate-wrapper">
+        <div class="table-container" style="max-width: 100%">
+          <table class="practice-table">
+            <thead>
+              <tr>
+                <th colspan="2" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
+                  📊 Rapor Evaluasi Monolog 60 Detik
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="2" class="text-center" style="padding: 15px !important; border-bottom: 2px solid #e2e8f0;">
+                  <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px;">Fluency Score</span>
+                  <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 5px;">
+                    ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
+                  </div>
+                </td>
+              </tr>
+              
+              <tr style="background-color: #f8fafc;">
+                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">⭐ Yang Sudah Bagus</th>
+                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">⚠️ Area Improvement</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #0f766e; font-weight: 500;">${data.good}</td>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #991b1b; font-weight: 500;">${data.improve}</td>
+              </tr>
+              
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🛠️ Quick Fix (Sesi Berikutnya)</th>
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🚀 Rekomendasi Topik Selanjutnya</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #334155;">${data.fix}</td>
+                <td style="padding: 12px 14px !important; color: #0369a1; font-weight: 600;">${data.next_topic}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
   } catch (e) {
+    console.error(e);
     out.classList.remove('loading');
-    out.textContent = '❌ Error: ' + e.message;
+    out.innerHTML = `<div class="error-msg">❌ Gagal memuat evaluasi monolog: ${e.message}</div>`;
   }
 }
 
@@ -1989,7 +2257,7 @@ async function endChat() {
     // Render output dalam bentuk struktur Tabel Multi-Kolom yang aman dari flexbox melar
     out.innerHTML = `
       <div class="table-isolate-wrapper">
-        <div class="table-container" style="max-width: 850px;">
+        <div class="table-container" style="max-width: 100%">
           <table class="practice-table">
             <thead>
               <tr>
@@ -2133,18 +2401,84 @@ async function getMentalPrep() {
 
   document.getElementById('prepArea').style.display = 'block';
   const out = document.getElementById('prepOutput');
-  out.textContent = '';
-  out.classList.add('loading');
+  
+  // Setel status loading awal
+  out.innerHTML = '<div class="loading-spinner">Menyusun strategi mental dan rencana aksi...</div>';
 
   try {
-    const result = await callGemini(
-      `Seorang learner bahasa Inggris Indonesia akan menghadapi situasi nyata: "${input}"\n\nSiapkan mereka dengan (dalam bahasa Indonesia):\n\n1. **Strategi Mental**: Mindset yang tepat untuk situasi ini\n2. **5 Frasa Kunci**: Kalimat siap pakai yang paling mungkin dibutuhkan (tulis dalam Inggris dengan terjemahan)\n3. **Anticipated Questions**: 3 pertanyaan yang mungkin ditanyakan + cara menjawabnya\n4. **Panic Plan**: Kalau tiba-tiba blank, lakukan ini\n5. **Success Definition**: Ukuran "berhasil" yang realistis untuk situasi ini\n\nBuat mereka merasa prepared dan confident.`
-    );
+    // Prompt dipaksa menghasilkan JSON agar data konsisten masuk ke struktur tabel kaku
+    const prompt = `Seorang learner bahasa Inggris Indonesia akan menghadapi situasi nyata: "${input}"
+    
+    Berikan panduan persiapan berbentuk JSON objek dengan format persis seperti ini tanpa teks tambahan di luar JSON:
+    {
+      "mindset": "Mindset dan strategi mental yang tepat untuk menghadapi situasi ini",
+      "phrases": "5 frasa kunci siap pakai dalam bahasa Inggris beserta arti singkatnya",
+      "questions": "3 pertanyaan yang mungkin dihadapi dan ringkasan cara menjawabnya",
+      "panic_plan": "Langkah konkret atau taktik jika tiba-tiba blank di tempat",
+      "success": "Ukuran keberhasilan yang realistis untuk situasi ini"
+    }
+    
+    Buat mereka merasa prepared dan confident. Jaga bahasa tetap praktis dan mendukung.`;
+
+    const result = await callGemini(prompt);
+    
+    // Bersihkan sisa pembungkus markdown JSON jika ada
+    const cleanJsonString = result.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(cleanJsonString);
+
     out.classList.remove('loading');
-    out.textContent = result;
+
+    // Render output ke dalam struktur tabel multi-kolom horizontal kaku
+    out.innerHTML = `
+      <div class="table-isolate-wrapper">
+        <div class="table-container" style="max-width: 100%">
+          <table class="practice-table">
+            <thead>
+              <tr>
+                <th colspan="2" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
+                  🧠 Mental Preparation & Action Plan
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background-color: #f8fafc;">
+                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🧠 Strategi Mental / Mindset</th>
+                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🎯 Target Sukses Realistis</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #334155;">${data.mindset}</td>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #0f766e; font-weight: 500;">${data.success}</td>
+              </tr>
+              
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🗣️ 5 Frasa Kunci (EN - ID)</th>
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">📋 Antisipasi Pertanyaan & Jawaban</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #1e40af; font-style: italic; white-space: pre-line;">${data.phrases}</td>
+                <td style="padding: 12px 14px !important; color: #475569; white-space: pre-line;">${data.questions}</td>
+              </tr>
+
+              <tr>
+                <td colspan="2" style="padding: 15px !important; border-top: 2px solid #e2e8f0; background-color: #fef2f2;">
+                  <div class="text-center">
+                    <span class="section-badge badge-error" style="font-size: 11px; padding: 4px 12px;">🚨 Panic Plan (Jika Tiba-Tiba Blank)</span>
+                    <p style="margin-top: 8px !important; color: #991b1b; font-weight: 500; font-size: 13.5px; line-height: 1.5 !important; text-align: left;">
+                      ${data.panic_plan}
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
   } catch (e) {
+    console.error(e);
     out.classList.remove('loading');
-    out.textContent = '❌ Error: ' + e.message;
+    out.innerHTML = `<div class="error-msg">❌ Gagal memuat persiapan mental: ${e.message}</div>`;
   }
 }
 
@@ -2154,18 +2488,83 @@ async function getDebrief() {
 
   document.getElementById('debriefArea').style.display = 'block';
   const out = document.getElementById('debriefOutput');
-  out.textContent = '';
-  out.classList.add('loading');
+  
+  // Setel status loading awal
+  out.innerHTML = '<div class="loading-spinner">Menganalisis pengalaman dan menyusun debrief mendalam...</div>';
 
   try {
-    const result = await callGemini(
-      `Seorang learner baru selesai melakukan percakapan nyata dalam bahasa Inggris. Cerita mereka:\n\n"${input}"\n\nBerikan debrief yang mendalam dalam bahasa Indonesia:\n\n1. **Apa yang Berjalan Baik**: Identifikasi keberhasilan konkret\n2. **Momen Kritis**: Analisis titik-titik penting (baik yang berhasil maupun yang mentok)\n3. **Root Cause**: Kenapa bagian yang sulit terjadi\n4. **Specific Fix**: Untuk setiap kesulitan, berikan latihan spesifik\n5. **Progress Marker**: Dibanding pemula, kamu sudah di level mana?\n6. **Next Mission**: Tantangan No-Filter Trial berikutnya yang sedikit lebih sulit\n\nCelebrate wins, tapi juga jujur tentang area improvement.`
-    );
+    // Prompt dipaksa menghasilkan JSON agar data konsisten masuk ke struktur tabel kaku
+    const prompt = `Seorang learner baru selesai melakukan percakapan nyata dalam bahasa Inggris. Cerita mereka: "${input}"
+    
+    Berikan debrief mendalam berbentuk JSON objek dengan format persis seperti ini tanpa teks tambahan di luar JSON:
+    {
+      "wins": "Identifikasi keberhasilan konkret yang berjalan dengan baik",
+      "critical_moments": "Analisis titik penting baik yang berhasil maupun yang mentok",
+      "root_cause": "Analisis mendalam kenapa bagian yang sulit atau mentok tersebut bisa terjadi",
+      "specific_fix": "Latihan spesifik dan solusi konkret untuk setiap kesulitan yang dihadapi",
+      "level_marker": "Penanda progress (dibanding pemula biasa, posisinya sudah di level mana beserta alasannya)",
+      "next_mission": "Tantangan No-Filter Trial berikutnya yang sedikit lebih sulit dan menantang"
+    }
+    
+    Celebrate wins, tapi juga jujur tentang area improvement. Gunakan bahasa Indonesia yang praktis dan tajam.`;
+
+    const result = await callGemini(prompt);
+    
+    // Bersihkan sisa pembungkus markdown JSON jika ada
+    const cleanJsonString = result.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(cleanJsonString);
+
     out.classList.remove('loading');
-    out.textContent = result;
+
+    // Render output ke dalam struktur tabel multi-kolom horizontal kaku
+    out.innerHTML = `
+      <div class="table-isolate-wrapper">
+        <div class="table-container" style="max-width: 100%">
+          <table class="practice-table">
+            <thead>
+              <tr>
+                <th colspan="2" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
+                  📝 Post-Conversation Debrief Report
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background-color: #f8fafc;">
+                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🎉 Apa yang Berjalan Baik</th>
+                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">📈 Progress Marker (Level)</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #0f766e; font-weight: 500;">${data.wins}</td>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #0369a1; font-weight: 500;">${data.level_marker}</td>
+              </tr>
+              
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">⚖️ Momen Kritis (Titik Mentok)</th>
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🔍 Root Cause (Akar Masalah)</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #334155;">${data.critical_moments}</td>
+                <td style="padding: 12px 14px !important; color: #991b1b;">${data.root_cause}</td>
+              </tr>
+
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🛠️ Specific Fix (Rencana Latihan)</th>
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🚀 Next Mission (Misi Selanjutnya)</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #1e40af; font-weight: 500;">${data.specific_fix}</td>
+                <td style="padding: 12px 14px !important; color: #115e59; font-weight: 600;">${data.next_mission}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
   } catch (e) {
+    console.error(e);
     out.classList.remove('loading');
-    out.textContent = '❌ Error: ' + e.message;
+    out.innerHTML = `<div class="error-msg">❌ Gagal memuat data debrief: ${e.message}</div>`;
   }
 }
 
@@ -2243,18 +2642,72 @@ async function askCoach() {
 
   document.getElementById('coachArea').style.display = 'block';
   const out = document.getElementById('coachOutput');
-  out.textContent = '';
-  out.classList.add('loading');
+  
+  // Setel status loading awal
+  out.innerHTML = '<div class="loading-spinner">Menganalisis pertanyaan dan merumuskan jawaban Coach...</div>';
 
   try {
-    const result = await callGemini(
-      `Kamu adalah AI Coach speaking English terbaik untuk orang Indonesia. Seorang learner bertanya:\n\n"${input}"\n\nJawab dengan:\n1. Analisis situasi mereka\n2. Saran konkret dan actionable\n3. Jadwal/rencana spesifik kalau relevan\n4. Motivasi yang genuine (bukan klise)\n\nGunakan bahasa Indonesia yang friendly dan encouraging. Berikan jawaban yang benar-benar membantu, bukan generik.`
-    );
+    // Prompt dipaksa menghasilkan JSON agar data konsisten masuk ke struktur tabel kaku
+    const prompt = `Kamu adalah AI Coach speaking English terbaik untuk orang Indonesia. Seorang learner bertanya: "${input}"
+    
+    Berikan jawaban berbentuk JSON objek dengan format persis seperti ini tanpa teks tambahan di luar JSON:
+    {
+      "analisis": "Analisis situasi dan akar masalah dari pertanyaan mereka secara spesifik",
+      "saran": "Saran konkret dan langkah actionable yang bisa langsung dicoba",
+      "rencana": "Jadwal, timeline, atau rencana spesifik yang relevan untuk diterapkan",
+      "motivasi": "Motivasi yang genuine, personal, dan mendukung (bukan kalimat klise)"
+    }
+    
+    Gunakan bahasa Indonesia yang friendly dan encouraging. Berikan jawaban yang benar-benar membantu, bukan generik.`;
+
+    const result = await callGemini(prompt);
+    
+    // Bersihkan sisa pembungkus markdown JSON jika ada
+    const cleanJsonString = result.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(cleanJsonString);
+
     out.classList.remove('loading');
-    out.textContent = result;
+
+    // Render output ke dalam struktur tabel multi-kolom horizontal kaku
+    out.innerHTML = `
+      <div class="table-isolate-wrapper">
+        <div class="table-container" style="max-width: 100%">
+          <table class="practice-table">
+            <thead>
+              <tr>
+                <th colspan="2" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
+                  📋 AI Coach Consultation Response
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background-color: #f8fafc;">
+                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🔍 Analisis Situasi</th>
+                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🛠️ Saran Konkret & Actionable</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #334155;">${data.analisis}</td>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #1e40af; font-weight: 500;">${data.saran}</td>
+              </tr>
+              
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">📅 Rencana Tindakan / Jadwal</th>
+                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">💖 Genuine Motivation</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #0369a1; font-weight: 500;">${data.rencana}</td>
+                <td style="padding: 12px 14px !important; color: #0f766e; font-style: italic;">${data.motivasi}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
   } catch (e) {
+    console.error(e);
     out.classList.remove('loading');
-    out.textContent = '❌ Error: ' + e.message;
+    out.innerHTML = `<div class="error-msg">❌ Gagal memuat jawaban coach: ${e.message}</div>`;
   }
 }
 </script>
