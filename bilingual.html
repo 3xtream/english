@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Bilingual Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1B2D5B;
+  --navy-light: #2A4080;
+  --orange: #FF6B35;
+  --orange-light: #FF8C5A;
+  --yellow: #FFD166;
+  --mint: #06D6A0;
+  --pink: #EF476F;
+  --sky: #118AB2;
+  --bg: #F0F4FF;
+  --white: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --text: #1B2D5B;
+  --text-soft: #6B7A9F;
+  --shadow: 0 4px 20px rgba(27,45,91,0.10);
+  --shadow-lg: 0 8px 32px rgba(27,45,91,0.16);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--navy);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-logo {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-logo span { color: var(--yellow); }
+
+.streak-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,209,102,0.15);
+  border: 1.5px solid rgba(255,209,102,0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  color: var(--yellow);
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.streak-pill:hover { background: rgba(255,209,102,0.25); }
+
+.streak-num { font-size: 18px; }
+
+/* ── SETUP SCREEN ── */
+#setupScreen {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.setup-card {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 36px 32px;
+  box-shadow: var(--shadow-lg);
+}
+
+.setup-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--navy);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.setup-sub {
+  color: var(--text-soft);
+  font-size: 14px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-soft);
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus { border-color: var(--orange); }
+
+.framework-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.fw-option {
+  border: 2px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.fw-option:hover { border-color: var(--orange); background: #FFF5F0; }
+
+.fw-option.selected {
+  border-color: var(--orange);
+  background: #FFF0E8;
+}
+
+.fw-option-icon { font-size: 24px; margin-bottom: 6px; }
+.fw-option-name { font-size: 13px; font-weight: 800; color: var(--navy); }
+.fw-option-desc { font-size: 11px; color: var(--text-soft); margin-top: 2px; line-height: 1.3; }
+
+.age-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.age-btn {
+  border: 2px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 10px 6px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-soft);
+  transition: all 0.2s;
+}
+
+.age-btn:hover { border-color: var(--sky); color: var(--sky); }
+.age-btn.selected { border-color: var(--sky); background: #E8F4FF; color: var(--sky); }
+
+.start-btn {
+  width: 100%;
+  background: var(--orange);
+  color: var(--white);
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 900;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.start-btn:hover { background: var(--orange-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,107,53,0.3); }
+
+/* ── API KEY ── */
+.api-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.api-row .form-input { flex: 1; font-size: 13px; padding: 10px 14px; }
+
+.api-btn {
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.api-btn:hover { background: var(--navy-light); }
+
+.api-ok { font-size: 12px; color: var(--mint); font-weight: 700; margin-top: -10px; margin-bottom: 10px; }
+
+/* ── MAIN APP ── */
+#appScreen { display: none; }
+
+.app-wrap {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+/* ── PROFILE CHIP ── */
+.profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 44px; height: 44px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.profile-info { flex: 1; }
+.profile-name { font-size: 16px; font-weight: 900; color: var(--navy); }
+.profile-fw { font-size: 12px; color: var(--text-soft); font-weight: 600; }
+
+.xp-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.xp-bar {
+  flex: 1;
+  height: 6px;
+  background: #E2E8F0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--orange), var(--yellow));
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.xp-label { font-size: 11px; font-weight: 700; color: var(--text-soft); white-space: nowrap; }
+
+/* ── DATE ROW ── */
+.date-strip {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.date-strip::-webkit-scrollbar { display: none; }
+
+.date-dot {
+  flex-shrink: 0;
+  width: 44px;
+  text-align: center;
+  padding: 8px 4px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.date-dot.today {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.date-dot.done {
+  background: var(--mint);
+  color: var(--white);
+}
+
+.date-dot.missed {
+  background: #F0F0F0;
+  color: #BBBBBB;
+}
+
+.date-dot.future {
+  background: #F5F7FF;
+  color: var(--text-soft);
+}
+
+.date-day { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.date-num { font-size: 16px; font-weight: 900; }
+.date-check { font-size: 12px; }
+
+/* ── MISSION CARD ── */
+.mission-section { margin-bottom: 20px; }
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 12px;
+}
+
+.mission-card {
+  background: var(--white);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.mission-top {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  padding: 22px 24px 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mission-top::after {
+  content: '';
+  position: absolute;
+  right: -20px; top: -20px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+
+.mission-framework-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--yellow);
+  margin-bottom: 12px;
+}
+
+.mission-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.mission-activity-type {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 600;
+}
+
+.mission-body { padding: 20px 24px; }
+
+.mission-desc {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+/* steps */
+.steps-list { list-style: none; margin-bottom: 20px; }
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #3A4A6B;
+  line-height: 1.5;
+}
+
+.step-num {
+  width: 24px; height: 24px;
+  background: var(--orange);
+  color: var(--white);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.step-item.done-step .step-num { background: var(--mint); }
+.step-item.done-step span { text-decoration: line-through; color: var(--text-soft); }
+
+/* phrase box */
+.phrase-box {
+  background: #FFFBEC;
+  border: 2px dashed var(--yellow);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.phrase-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #B8860B;
+  margin-bottom: 8px;
+}
+
+.phrase-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+
+.phrase-en {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.phrase-id {
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+/* duration badge */
+.duration-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.meta-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #F0F4FF;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--navy-light);
+}
+
+/* action buttons */
+.action-row {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-complete {
+  flex: 1;
+  background: var(--orange);
+  color: var(--white);
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-complete:hover:not(:disabled) {
+  background: var(--orange-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255,107,53,0.3);
+}
+
+.btn-complete:disabled { background: var(--mint); cursor: default; transform: none; box-shadow: none; }
+
+.btn-reload {
+  background: #F0F4FF;
+  color: var(--navy);
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-reload:hover { background: #E2E8F0; }
+.btn-reload:disabled { opacity: 0.4; cursor: default; }
+
+.btn-pdf {
+  background: var(--sky);
+  color: var(--white);
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-pdf:hover { background: var(--navy); }
+
+/* generating state */
+.generating-state {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.gen-spinner {
+  width: 48px; height: 48px;
+  border: 4px solid #E2E8F0;
+  border-top-color: var(--orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.gen-text { font-size: 15px; color: var(--text-soft); font-weight: 600; }
+
+/* completed mission */
+.completed-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(6,214,160,0.96);
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  animation: fadeIn 0.4s ease;
+  padding: 30px;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.completed-emoji { font-size: 56px; animation: bounce 0.5s ease; }
+@keyframes bounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+
+.completed-title { font-size: 24px; font-weight: 900; color: var(--white); }
+.completed-sub { font-size: 14px; color: rgba(255,255,255,0.8); text-align: center; line-height: 1.5; }
+
+.btn-next {
+  background: var(--white);
+  color: var(--mint);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: transform 0.2s;
+}
+
+.btn-next:hover { transform: scale(1.04); }
+
+/* ── BONUS CHALLENGES ── */
+.bonus-section { margin-bottom: 20px; }
+
+.bonus-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.bonus-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.bonus-card:hover {
+  border-color: var(--orange);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.bonus-card.locked { opacity: 0.5; cursor: default; }
+.bonus-card.locked:hover { transform: none; border-color: transparent; box-shadow: var(--shadow); }
+
+.bonus-icon { font-size: 26px; margin-bottom: 8px; }
+.bonus-name { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 3px; }
+.bonus-desc { font-size: 11px; color: var(--text-soft); line-height: 1.4; }
+.bonus-pts { font-size: 11px; font-weight: 800; color: var(--orange); margin-top: 6px; }
+
+/* ── REFLECTION BOX ── */
+.reflect-card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.reflect-title {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--navy);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reflect-input {
+  width: 100%;
+  border: 2px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  resize: none;
+  outline: none;
+  min-height: 80px;
+  transition: border-color 0.2s;
+}
+
+.reflect-input:focus { border-color: var(--sky); }
+
+.reflect-btn {
+  background: var(--sky);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.reflect-btn:hover { background: var(--navy); }
+
+.reflect-ai-response {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: #F0FDF8;
+  border-left: 3px solid var(--mint);
+  border-radius: 0 10px 10px 0;
+  font-size: 13px;
+  color: #1A5240;
+  line-height: 1.6;
+  display: none;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--navy);
+  color: var(--white);
+  border-radius: 16px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 999;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── HISTORY MODAL ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+
+.modal-backdrop.open { display: flex; }
+
+.modal-sheet {
+  background: var(--white);
+  border-radius: 24px 24px 0 0;
+  width: 100%;
+  max-width: 520px;
+  max-height: 75vh;
+  overflow-y: auto;
+  padding: 24px 20px 40px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+.modal-handle {
+  width: 40px; height: 4px;
+  background: #E2E8F0;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.modal-title { font-size: 20px; font-weight: 900; color: var(--navy); margin-bottom: 16px; }
+
+.history-entry {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #F0F4FF;
+}
+
+.hist-date {
+  flex-shrink: 0;
+  width: 44px;
+  text-align: center;
+}
+
+.hist-date-num { font-size: 20px; font-weight: 900; color: var(--navy); }
+.hist-date-mo { font-size: 10px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; }
+
+.hist-content { flex: 1; }
+.hist-title { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 2px; }
+.hist-fw { font-size: 11px; color: var(--orange); font-weight: 700; }
+.hist-pts { font-size: 12px; color: var(--mint); font-weight: 800; margin-top: 2px; }
+
+.modal-close {
+  background: #F0F4FF;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  margin-top: 16px;
+  width: 100%;
+}
+
+/* Stars animation */
+.stars-wrap {
+  position: fixed;
+  pointer-events: none;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 500;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  font-size: 24px;
+  animation: starFly 1s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes starFly {
+  0% { opacity: 1; transform: scale(0.5) translateY(0); }
+  100% { opacity: 0; transform: scale(1.5) translateY(-120px); }
+}
+
+/* responsive */
+@media (max-width: 400px) {
+  .bonus-grid { grid-template-columns: 1fr; }
+  .setup-card { padding: 28px 20px; }
+  .framework-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══ PRINT STYLESHEET (PDF APPROACH) ═══ */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #1B2D5B !important;
+    font-size: 12pt;
+  }
+  
+  /* Sembunyikan elemen UI yang tidak diperlukan di PDF */
+  .topbar, 
+  .date-strip, 
+  .action-row, 
+  .bonus-section, 
+  .reflect-card, 
+  .completed-overlay,
+  #setupScreen {
+    display: none !important;
+  }
+  
+  /* Tata letak area aplikasi khusus cetak */
+  #appScreen {
+    display: block !important;
+  }
+  
+  .app-wrap {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Sembunyikan progress bar dan level di PDF */
+  .xp-bar-wrap, .avatar {
+    display: none !important;
+  }
+  
+  .profile-chip {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #E2E8F0;
+    padding-bottom: 10px;
+  }
+  
+  .profile-name {
+    font-size: 20pt !important;
+  }
+
+  /* Modifikasi Mission Card agar pas di kertas A4/Surat dan hemat tinta */
+  .mission-card {
+    border: 2px solid #1B2D5B !important;
+    box-shadow: none !important;
+    border-radius: 12px !important;
+    page-break-inside: avoid;
+  }
+  
+  .mission-top {
+    background: #1B2D5B !important;
+    color: #FFFFFF !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    padding: 20px !important;
+  }
+  
+  .mission-title {
+    font-size: 18pt !important;
+    color: #FFFFFF !important;
+  }
+  
+  .mission-framework-tag {
+    border: 1px solid #FFFFFF !important;
+    color: #FFFFFF !important;
+    background: transparent !important;
+  }
+  
+  .mission-body {
+    padding: 20px !important;
+  }
+  
+  .phrase-box {
+    background: #FFFDF5 !important;
+    border: 1px dashed #1B2D5B !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .step-num {
+    border: 1px solid #1B2D5B !important;
+    background: #FFFFFF !important;
+    color: #1B2D5B !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-logo">🌟 Family <span>Bilingual</span></div>
+  <div class="streak-pill" onclick="openHistory()">
+    🔥 <span class="streak-num" id="streakNum">0</span> hari
+  </div>
+</nav>
+
+<div id="setupScreen">
+  <div class="setup-card" style="margin-top:32px; max-width:480px; margin-left:auto; margin-right:auto; padding: 36px 28px;">
+    <div class="setup-title">Halo, Keluarga! 👋</div>
+    <p class="setup-sub">Setup profil keluargamu sekali, lalu mulai tantangan harian bilingual bersama.</p>
+
+    <div class="form-group">
+      <label class="form-label">🔑 Gemini API Key</label>
+      <div class="api-row">
+        <input type="password" class="form-input" id="setupApiKey" placeholder="Paste Gemini API Key kamu...">
+        <button class="api-btn" onclick="checkApiKey()">Cek</button>
+      </div>
+      <div class="api-ok" id="apiOk" style="display:none">✓ API Key valid & tersimpan</div>
+      <div style="font-size:11px; color:var(--text-soft);">Gratis dari <a href="https://aistudio.google.com" target="_blank" style="color:var(--sky)">Google AI Studio</a></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">👦 Nama Anak</label>
+      <input type="text" class="form-input" id="childName" placeholder="cth: Hana">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">🎂 Usia Anak</label>
+      <div class="age-grid" id="ageGrid">
+        <div class="age-btn" onclick="selectAge(this,'2-3 tahun')">2–3 th</div>
+        <div class="age-btn" onclick="selectAge(this,'4-5 tahun')">4–5 th</div>
+        <div class="age-btn" onclick="selectAge(this,'6-7 tahun')">6–7 th</div>
+        <div class="age-btn" onclick="selectAge(this,'8-9 tahun')">8–9 th</div>
+        <div class="age-btn" onclick="selectAge(this,'10-12 tahun')">10–12 th</div>
+        <div class="age-btn" onclick="selectAge(this,'remaja')">Remaja</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">📚 Framework Bilingualisme</label>
+      <div class="framework-grid" id="fwGrid">
+        <div class="fw-option" onclick="selectFW(this,'OPOL')">
+          <div class="fw-option-icon">👨‍👩‍👧</div>
+          <div class="fw-option-name">OPOL</div>
+          <div class="fw-option-desc">Satu orang tua, satu bahasa</div>
+        </div>
+        <div class="fw-option" onclick="selectFW(this,'MLAH')">
+          <div class="fw-option-icon">🏠</div>
+          <div class="fw-option-name">MLAH</div>
+          <div class="fw-option-desc">Inggris 100% di rumah</div>
+        </div>
+        <div class="fw-option" onclick="selectFW(this,'Time & Place')">
+          <div class="fw-option-icon">⏰</div>
+          <div class="fw-option-name">Time & Place</div>
+          <div class="fw-option-desc">Pisah waktu/tempat</div>
+        </div>
+        <div class="fw-option" onclick="selectFW(this,'Context-Based')">
+          <div class="fw-option-icon">🎭</div>
+          <div class="fw-option-name">Context-Based</div>
+          <div class="fw-option-desc">Bahasa per aktivitas</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="start-btn" onclick="startApp()">
+      Mulai Tantangan Hari Ini 🚀
+    </button>
+  </div>
+</div>
+
+<div id="appScreen">
+  <div class="app-wrap">
+
+    <div class="profile-chip">
+      <div class="avatar" id="profileEmoji">🌟</div>
+      <div class="profile-info">
+        <div class="profile-name" id="profileName">—</div>
+        <div class="profile-fw" id="profileFW">—</div>
+        <div class="xp-bar-wrap">
+          <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+          <div class="xp-label" id="xpLabel">0 XP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="date-strip" id="dateStrip"></div>
+
+    <div class="mission-section">
+      <div class="section-eyebrow">🎯 Misi Hari Ini</div>
+      <div class="mission-card" id="missionCard">
+        <div class="generating-state" id="genState">
+          <div class="gen-spinner"></div>
+          <div class="gen-text">Membuat challenge untukmu…</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bonus-section">
+      <div class="section-eyebrow">⚡ Bonus Challenge</div>
+      <div class="bonus-grid" id="bonusGrid">
+        <div class="bonus-card locked" id="bonusSong">
+          <div class="bonus-icon">🎵</div>
+          <div class="bonus-name">Bilingual Song</div>
+          <div class="bonus-desc">Nyanyikan lagu dalam dua bahasa bersama</div>
+          <div class="bonus-pts">+15 XP • 🔒 Selesaikan misi dulu</div>
+        </div>
+        <div class="bonus-card locked" id="bonusStory">
+          <div class="bonus-icon">📖</div>
+          <div class="bonus-name">Story Time</div>
+          <div class="bonus-desc">Cerita bergantian: 1 kalimat Inggris, 1 Indonesia</div>
+          <div class="bonus-pts">+15 XP • 🔒 Selesaikan misi dulu</div>
+        </div>
+        <div class="bonus-card locked" id="bonusGame">
+          <div class="bonus-icon">🎮</div>
+          <div class="bonus-name">Word Hunt</div>
+          <div class="bonus-desc">Cari benda di rumah, sebut nama Inggrisnya</div>
+          <div class="bonus-pts">+10 XP • 🔒 Selesaikan misi dulu</div>
+        </div>
+        <div class="bonus-card locked" id="bonusPhrase">
+          <div class="bonus-icon">💬</div>
+          <div class="bonus-name">Phrase Power</div>
+          <div class="bonus-desc">Hafal 3 ungkapan baru dari misi hari ini</div>
+          <div class="bonus-pts">+10 XP • 🔒 Selesaikan misi dulu</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflect-card">
+      <div class="reflect-title">💭 Catatan Hari Ini <span style="font-size:11px;font-weight:600;color:var(--text-soft)">— opsional</span></div>
+      <textarea class="reflect-input" id="reflectInput" placeholder="Bagaimana reaksi anakmu saat melakukan challenge? Kata apa yang paling menarik perhatiannya?"></textarea>
+      <button class="reflect-btn" onclick="sendReflection()">Kirim ke AI Coach ✨</button>
+      <div class="reflect-ai-response" id="reflectResponse"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-backdrop" id="historyModal" onclick="closeHistoryOutside(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📅 Riwayat Challenge</div>
+    <div id="historyList"></div>
+    <button class="modal-close" onclick="closeHistory()">Tutup</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="stars-wrap" id="starsWrap"></div>
+
+<script>
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+let state = {
+  apiKey: localStorage.getItem('fbc_key') || '',
+  childName: localStorage.getItem('fbc_name') || '',
+  childAge: localStorage.getItem('fbc_age') || '',
+  framework: localStorage.getItem('fbc_fw') || '',
+  streak: parseInt(localStorage.getItem('fbc_streak') || '0'),
+  xp: parseInt(localStorage.getItem('fbc_xp') || '0'),
+  todayDone: false,
+  todayChallenge: null,
+  history: JSON.parse(localStorage.getItem('fbc_history') || '[]'),
+  lastDate: localStorage.getItem('fbc_lastdate') || '',
+};
+
+const DAYS_ID = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const MONTHS_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const LEVEL_EMOJIS = ['🌱','⭐','🌟','🏆','👑'];
+const LEVEL_NAMES = ['Pemula','Bintang','Juara','Master','Legend'];
+
+function todayStr() {
+  return new Date().toISOString().slice(0,10);
+}
+
+// ══════════════════════════════════════
+//  SETUP
+// ══════════════════════════════════════
+let selectedFW = '';
+let selectedAge = '';
+
+function selectFW(el, val) {
+  document.querySelectorAll('.fw-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedFW = val;
+}
+
+function selectAge(el, val) {
+  document.querySelectorAll('.age-btn').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAge = val;
+}
+
+async function checkApiKey() {
+  const raw = document.getElementById('setupApiKey').value.trim();
+  if (!raw || raw.startsWith('•')) {
+    if (state.apiKey) { showToast('✅ API Key sudah tersimpan'); return; }
+    showToast('Masukkan API key dulu!'); return;
+  }
+  const btn = document.querySelector('.api-btn');
+  btn.textContent = 'Mengecek…';
+  btn.disabled = true;
+  try {
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=' + raw, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ contents:[{role:'user',parts:[{text:'hi'}]}], generationConfig:{maxOutputTokens:5} })
+    });
+    const d = await res.json();
+    if (d.error) {
+      const msg = d.error.message || '';
+      if (d.error.code === 400 || msg.includes('API_KEY_INVALID')) throw new Error('API Key tidak dikenali. Pastikan key dari Google AI Studio dan sudah diaktifkan.');
+      if (d.error.code === 403) throw new Error('Akses ditolak. Aktifkan Generative Language API di Google Cloud Console.');
+      throw new Error(msg.slice(0,80));
+    }
+    state.apiKey = raw;
+    localStorage.setItem('fbc_key', raw);
+    document.getElementById('apiOk').style.display = 'block';
+    document.getElementById('setupApiKey').value = '••••••••••••••';
+    showToast('✅ API Key valid!');
+  } catch(e) {
+    document.getElementById('apiOk').style.display = 'none';
+    showToast('❌ ' + (e.message || 'Gagal menghubungi Gemini'));
+  } finally {
+    btn.textContent = 'Cek';
+    btn.disabled = false;
+  }
+}
+
+function startApp() {
+  const name = document.getElementById('childName').value.trim();
+  if (!state.apiKey) { showToast('Masukkan & cek API Key dulu!'); return; }
+  if (!name) { showToast('Isi nama anak dulu!'); return; }
+  if (!selectedAge) { showToast('Pilih usia anak!'); return; }
+  if (!selectedFW) { showToast('Pilih framework dulu!'); return; }
+
+  state.childName = name;
+  state.childAge = selectedAge;
+  state.framework = selectedFW;
+  localStorage.setItem('fbc_name', name);
+  localStorage.setItem('fbc_age', selectedAge);
+  localStorage.setItem('fbc_fw', selectedFW);
+
+  launchApp();
+}
+
+// ══════════════════════════════════════
+//  LAUNCH APP
+// ══════════════════════════════════════
+function launchApp() {
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'block';
+
+  // check streak reset
+  const today = todayStr();
+  const last = state.lastDate;
+  if (last && last !== today) {
+    const diff = (new Date(today) - new Date(last)) / 86400000;
+    if (diff > 1) {
+      state.streak = 0;
+      localStorage.setItem('fbc_streak', '0');
+    }
+    state.todayDone = false;
+  } else if (last === today) {
+    state.todayDone = true;
+  }
+
+  updateUI();
+  buildDateStrip();
+
+  if (state.todayDone && state.todayChallenge) {
+    renderChallenge(state.todayChallenge, true);
+  } else {
+    generateChallenge();
+  }
+}
+
+function updateUI() {
+  document.getElementById('streakNum').textContent = state.streak;
+  document.getElementById('profileName').textContent = state.childName + "'s Journey";
+  document.getElementById('profileFW').textContent = '📚 ' + state.framework;
+
+  const level = Math.min(Math.floor(state.xp / 100), 4);
+  document.getElementById('profileEmoji').textContent = LEVEL_EMOJIS[level];
+  const xpInLevel = state.xp % 100;
+  document.getElementById('xpFill').style.width = xpInLevel + '%';
+  document.getElementById('xpLabel').textContent = state.xp + ' XP · ' + LEVEL_NAMES[level];
+}
+
+function buildDateStrip() {
+  const strip = document.getElementById('dateStrip');
+  strip.innerHTML = '';
+  const today = new Date();
+  for (let i = -3; i <= 3; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const ds = d.toISOString().slice(0,10);
+    const div = document.createElement('div');
+    div.className = 'date-dot';
+    const histEntry = state.history.find(h => h.date === ds);
+    if (i === 0) { div.classList.add('today'); }
+    else if (histEntry) { div.classList.add('done'); }
+    else if (i < 0) { div.classList.add('missed'); }
+    else { div.classList.add('future'); }
+    div.innerHTML = `<div class="date-day">${DAYS_ID[d.getDay()]}</div>
+      <div class="date-num">${d.getDate()}</div>
+      <div class="date-check">${histEntry ? '✓' : i === 0 ? '●' : ''}</div>`;
+    strip.appendChild(div);
+  }
+}
+
+// ══════════════════════════════════════
+//  GENERATE CHALLENGE (GEMINI)
+// ══════════════════════════════════════
+async function generateChallenge(isReload = false) {
+  const card = document.getElementById('missionCard');
+  card.innerHTML = `<div class="generating-state">
+    <div class="gen-spinner"></div>
+    <div class="gen-text">${isReload ? 'Membuat challenge alternatif…' : 'Membuat challenge hari ini…'}</div>
+  </div>`;
+
+  lockBonuses(true);
+
+  const today = new Date();
+  const dayName = DAYS_ID[today.getDay()];
+  const prompt = buildChallengePrompt(dayName);
+
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${state.apiKey}`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{role:'user', parts:[{text: prompt}]}],
+        generationConfig:{ temperature:0.95, maxOutputTokens:700 }
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+
+    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    state.todayChallenge = parsed;
+    renderChallenge(parsed, isReload ? false : state.todayDone);
+  } catch(e) {
+    card.innerHTML = `<div class="generating-state">
+      <div style="font-size:32px;margin-bottom:12px">😅</div>
+      <div class="gen-text">Gagal membuat challenge.<br><small>${e.message.slice(0,80)}</small></div>
+      <button onclick="generateChallenge()" style="margin-top:16px;background:var(--orange);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:800;font-family:Nunito,sans-serif;cursor:pointer;">Coba Lagi</button>
+    </div>`;
+  }
+}
+
+function buildChallengePrompt(dayName) {
+  return `Kamu adalah pembuat "Daily Bilingual Challenge" untuk keluarga Indonesia yang sedang membesarkan anak bilingual Inggris-Indonesia menggunakan framework ${state.framework}.
+
+Data keluarga:
+- Nama anak: ${state.childName}
+- Usia anak: ${state.childAge}
+- Framework: ${state.framework}
+- Hari ini: ${dayName}
+
+Buat satu tantangan aktivitas bilingual yang menyenangkan, kreatif, dan bisa dilakukan orang tua bersama anak di rumah hari ini. Challenge harus sesuai usia, relevan dengan kehidupan sehari-hari Indonesia, dan mendukung framework ${state.framework}.
+
+PENTING: Kembalikan HANYA JSON murni (tanpa markdown, tanpa kalimat lain), format persis ini:
+{
+  "title": "Judul challenge singkat dan menarik (maks 6 kata, dalam Inggris)",
+  "activity_type": "Jenis aktivitas (cth: Roleplay, Storytelling, Game, Song, Cooking, etc.)",
+  "framework_tag": "${state.framework}",
+  "description": "Penjelasan singkat challenge dalam Bahasa Indonesia (2-3 kalimat), kenapa menyenangkan, dan apa yang dipelajari anak.",
+  "steps": [
+    "Langkah pertama yang konkret dan spesifik",
+    "Langkah kedua",
+    "Langkah ketiga"
+  ],
+  "phrases": [
+    {"en": "Contoh kalimat/frasa Inggris 1", "id": "Artinya dalam Bahasa Indonesia"},
+    {"en": "Contoh kalimat/frasa Inggris 2", "id": "Artinya dalam Bahasa Indonesia"},
+    {"en": "Contoh kalimat/frasa Inggris 3", "id": "Artinya dalam Bahasa Indonesia"}
+  ],
+  "duration": "15-20 menit",
+  "energy_level": "Rendah / Sedang / Tinggi",
+  "xp": 30
+}`;
+}
+
+// ══════════════════════════════════════
+//  RENDER CHALLENGE
+// ══════════════════════════════════════
+const FW_COLORS = {
+  'OPOL':         { tag:'#FBBF24', bg:'linear-gradient(135deg,#1B2D5B,#2A4080)' },
+  'MLAH':         { tag:'#06D6A0', bg:'linear-gradient(135deg,#0D4A40,#1A7A68)' },
+  'Time & Place': { tag:'#EF476F', bg:'linear-gradient(135deg,#5B1B30,#8A2E4A)' },
+  'Context-Based':{ tag:'#818CF8', bg:'linear-gradient(135deg,#2D1B5B,#4A2A80)' },
+};
+
+function renderChallenge(ch, alreadyDone) {
+  const card = document.getElementById('missionCard');
+  const colors = FW_COLORS[ch.framework_tag] || FW_COLORS['OPOL'];
+
+  const stepsHTML = ch.steps.map((s,i) =>
+    `<li class="step-item ${alreadyDone?'done-step':''}">
+      <div class="step-num">${alreadyDone?'✓':(i+1)}</div>
+      <span>${s}</span>
+    </li>`
+  ).join('');
+
+  const phrasesHTML = ch.phrases.map(p =>
+    `<div class="phrase-item">
+      <span class="phrase-en">${p.en}</span>
+      <span class="phrase-id">${p.id}</span>
+    </div>`
+  ).join('');
+
+  card.innerHTML = `
+    <div class="mission-top" style="background:${colors.bg}">
+      <div class="mission-framework-tag" style="color:${colors.tag}">
+        ${ch.framework_tag}
+      </div>
+      <div class="mission-title">${ch.title}</div>
+      <div class="mission-activity-type">✦ ${ch.activity_type}</div>
+    </div>
+    <div class="mission-body">
+      <p class="mission-desc">${ch.description}</p>
+      <div class="duration-row">
+        <div class="meta-badge">⏱ ${ch.duration}</div>
+        <div class="meta-badge">⚡ Energi: ${ch.energy_level}</div>
+        <div class="meta-badge">🏅 +${ch.xp} XP</div>
+      </div>
+      <ul class="steps-list">${stepsHTML}</ul>
+      <div class="phrase-box">
+        <div class="phrase-label">📣 Kalimat Kunci Hari Ini</div>
+        ${phrasesHTML}
+      </div>
+      <div class="action-row">
+        <button class="btn-complete" id="completeBtn" onclick="completeChallenge()" ${alreadyDone?'disabled':''}>
+          ${alreadyDone ? '✅ Sudah Selesai Hari Ini!' : '✅ Tandai Selesai!'}
+        </button>
+        <button class="btn-reload" id="reloadBtn" onclick="generateChallenge(true)" title="Generate challenge baru">🔄</button>
+        <button class="btn-pdf" id="pdfBtn" onclick="exportToPDF()" title="Simpan sebagai PDF">📄 PDF</button>
+      </div>
+    </div>
+    ${alreadyDone ? '<div class="completed-overlay" id="completedOverlay" style="animation:none;opacity:0.92"><div class="completed-emoji">🎉</div><div class="completed-title">Keren banget!</div><div class="completed-sub">Challenge hari ini sudah selesai!<br>Mau coba aktivitas lain? Tap 🔄</div><button class="btn-next" onclick="document.getElementById(\'completedOverlay\').style.display=\'none\'">Lihat Detail</button></div>' : ''}
+  `;
+
+  if (alreadyDone) lockBonuses(false);
+}
+
+// ══════════════════════════════════════
+//  EXPORT TO PDF FUNCTION
+// ══════════════════════════════════════
+function exportToPDF() {
+  const originalTitle = document.title;
+  const child = state.childName || 'Anak';
+  
+  // Ubah judul dokumen sementara agar nama berkas PDF bawaan browser rapi
+  document.title = `Bilingual_Challenge_${child}_${todayStr()}`;
+  
+  // Panggil antarmuka pencetakan sistem
+  window.print();
+  
+  // Kembalikan judul semula
+  document.title = originalTitle;
+}
+
+// ══════════════════════════════════════
+//  COMPLETE CHALLENGE
+// ══════════════════════════════════════
+function completeChallenge() {
+  const today = todayStr();
+  const ch = state.todayChallenge;
+  if (!ch) return;
+
+  // update streak
+  const last = state.lastDate;
+  const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+  const yStr = yesterday.toISOString().slice(0,10);
+  if (last === yStr || last === '') {
+    state.streak += 1;
+  } else if (last !== today) {
+    state.streak = 1;
+  }
+
+  state.xp += ch.xp;
+  state.todayDone = true;
+  state.lastDate = today;
+
+  // save history
+  state.history.push({ date: today, title: ch.title, fw: ch.framework_tag, xp: ch.xp });
+  if (state.history.length > 30) state.history.shift();
+
+  localStorage.setItem('fbc_streak', state.streak);
+  localStorage.setItem('fbc_xp', state.xp);
+  localStorage.setItem('fbc_lastdate', today);
+  localStorage.setItem('fbc_history', JSON.stringify(state.history));
+
+  updateUI();
+  buildDateStrip();
+  lockBonuses(false);
+  shootStars();
+
+  // replace action row with completion - lalu redirect ke setup screen
+  const card = document.getElementById('missionCard');
+  const overlay = document.createElement('div');
+  overlay.className = 'completed-overlay';
+  overlay.id = 'completedOverlay';
+  overlay.innerHTML = `
+    <div class="completed-emoji">🎉</div>
+    <div class="completed-title">+${ch.xp} XP! 🔥 ${state.streak} hari beruntun</div>
+    <div class="completed-sub">${state.childName} luar biasa!<br>Challenge hari ini selesai.</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.8);margin-top:4px" id="redirectCountdown">Kembali ke profil dalam 3…</div>
+    <button class="btn-next" onclick="goToSetup()">Ganti Profil / Framework →</button>
+  `;
+  card.appendChild(overlay);
+
+  document.getElementById('completeBtn').disabled = true;
+  document.getElementById('completeBtn').textContent = '✅ Sudah Selesai Hari Ini!';
+
+  showToast('🔥 Streak ' + state.streak + ' hari! +' + ch.xp + ' XP');
+
+  // Hitung mundur lalu redirect otomatis ke setup screen
+  let count = 3;
+  const getCountEl = () => document.getElementById('redirectCountdown');
+  const redirectTimer = setInterval(() => {
+    count--;
+    if (getCountEl()) getCountEl().textContent = count > 0 ? `Kembali ke profil dalam ${count}…` : 'Mengalihkan…';
+    if (count <= 0) {
+      clearInterval(redirectTimer);
+      goToSetup();
+    }
+  }, 1000);
+}
+
+function lockBonuses(lock) {
+  ['bonusSong','bonusStory','bonusGame','bonusPhrase'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (lock) {
+      el.classList.add('locked');
+      el.onclick = null;
+    } else {
+      el.classList.remove('locked');
+      el.onclick = () => doBonus(id);
+    }
+  });
+}
+
+// ══════════════════════════════════════
+//  KEMBALI KE SETUP SCREEN
+// ══════════════════════════════════════
+function goToSetup() {
+  document.getElementById('appScreen').style.display = 'none';
+  document.getElementById('setupScreen').style.display = 'block';
+
+  // Pre-fill semua data yang sudah tersimpan
+  if (state.apiKey) {
+    document.getElementById('setupApiKey').value = '••••••••••••••';
+    document.getElementById('apiOk').style.display = 'block';
+  }
+  if (state.childName) {
+    document.getElementById('childName').value = state.childName;
+  }
+
+  // Re-select usia yang dipilih sebelumnya
+  selectedAge = state.childAge;
+  document.querySelectorAll('.age-btn').forEach(el => {
+    const match = el.getAttribute('onclick')?.match(/'([^']+)'/);
+    el.classList.toggle('selected', !!(match && match[1] === state.childAge));
+  });
+
+  // Re-select framework yang dipilih sebelumnya
+  selectedFW = state.framework;
+  document.querySelectorAll('.fw-option').forEach(el => {
+    const match = el.getAttribute('onclick')?.match(/'([^']+)'/);
+    el.classList.toggle('selected', !!(match && match[1] === state.framework));
+  });
+
+  // Tampilkan pesan selamat setelah challenge selesai
+  const sub = document.querySelector('.setup-sub');
+  if (sub && state.todayDone) {
+    sub.innerHTML = `🎉 Challenge hari ini sudah selesai! Ubah profil atau framework jika perlu, lalu mulai lagi.`;
+    sub.style.color = '#06D6A0';
+    sub.style.fontWeight = '700';
+  }
+}
+
+async function doBonus(id) {
+  const bonusMap = {
+    bonusSong:   { name:'Bilingual Song', pts:15 },
+    bonusStory:  { name:'Story Time', pts:15 },
+    bonusGame:   { name:'Word Hunt', pts:10 },
+    bonusPhrase: { name:'Phrase Power', pts:10 },
+  };
+  const b = bonusMap[id];
+  const el = document.getElementById(id);
+  el.classList.add('locked');
+  el.onclick = null;
+  el.querySelector('.bonus-pts').textContent = `+${b.pts} XP · ✅ Selesai!`;
+  state.xp += b.pts;
+  localStorage.setItem('fbc_xp', state.xp);
+  updateUI();
+  shootStars(6);
+  showToast('🌟 Bonus "' + b.name + '" +' + b.pts + ' XP!');
+}
+
+// ══════════════════════════════════════
+//  REFLECTION
+// ══════════════════════════════════════
+async function sendReflection() {
+  const text = document.getElementById('reflectInput').value.trim();
+  if (!text) { showToast('Tulis catatan dulu!'); return; }
+
+  const btn = document.querySelector('.reflect-btn');
+  btn.textContent = 'Mengirim…';
+  btn.disabled = true;
+
+  const prompt = `Kamu adalah AI coach bilingualisme yang hangat dan suportif untuk orang tua Indonesia.
+
+Keluarga ini menggunakan framework ${state.framework} untuk anak usia ${state.childAge} bernama ${state.childName}.
+Challenge hari ini: "${state.todayChallenge?.title || 'bilingual daily activity'}"
+
+Catatan dari orang tua: "${text}"
+
+Berikan respons singkat (3-4 kalimat) dalam Bahasa Indonesia yang:
+1. Mengapresiasi usaha orang tua dengan hangat
+2. Memberikan insight atau saran konkret berdasarkan observasi mereka
+3. Memberikan semangat untuk esok hari
+
+Jangan gunakan format list, cukup paragraf pendek yang hangat dan personal.`;
+
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${state.apiKey}`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ contents:[{role:'user',parts:[{text:prompt}]}], generationConfig:{temperature:0.8,maxOutputTokens:200} })
+    });
+    const data = await res.json();
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Terima kasih sudah berbagi!';
+    const el = document.getElementById('reflectResponse');
+    el.textContent = '🤖 ' + reply;
+    el.style.display = 'block';
+    showToast('💬 AI Coach membalas!');
+  } catch(e) {
+    showToast('Gagal mengirim: ' + e.message.slice(0,40));
+  } finally {
+    btn.textContent = 'Kirim ke AI Coach ✨';
+    btn.disabled = false;
+  }
+}
+
+// ══════════════════════════════════════
+//  HISTORY MODAL
+// ══════════════════════════════════════
+function openHistory() {
+  const list = document.getElementById('historyList');
+  if (state.history.length === 0) {
+    list.innerHTML = '<p style="color:var(--text-soft);text-align:center;padding:20px 0">Belum ada riwayat. Selesaikan challenge pertamamu!</p>';
+  } else {
+    list.innerHTML = [...state.history].reverse().map(h => {
+      const d = new Date(h.date);
+      return `<div class="history-entry">
+        <div class="hist-date">
+          <div class="hist-date-num">${d.getDate()}</div>
+          <div class="hist-date-mo">${MONTHS_ID[d.getMonth()]}</div>
+        </div>
+        <div class="hist-content">
+          <div class="hist-title">${h.title}</div>
+          <div class="hist-fw">${h.fw}</div>
+          <div class="hist-pts">+${h.xp} XP diperoleh</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('historyModal').classList.add('open');
+}
+
+function closeHistory() { document.getElementById('historyModal').classList.remove('open'); }
+function closeHistoryOutside(e) { if (e.target === document.getElementById('historyModal')) closeHistory(); }
+
+// ══════════════════════════════════════
+//  FX
+// ══════════════════════════════════════
+function shootStars(count = 10) {
+  const wrap = document.getElementById('starsWrap');
+  const emojis = ['⭐','🌟','✨','🎉','🎊','💫'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'star';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = (20 + Math.random() * 60) + '%';
+      el.style.bottom = (10 + Math.random() * 20) + '%';
+      el.style.animationDelay = (Math.random() * 0.3) + 's';
+      wrap.appendChild(el);
+      setTimeout(() => el.remove(), 1200);
+    }, i * 80);
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (t) {
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+window.onload = function() {
+  if (state.apiKey && state.childName && state.childAge && state.framework) {
+    launchApp();
+  } else {
+    if (state.apiKey) {
+      document.getElementById('setupApiKey').value = '••••••••••••••';
+      document.getElementById('apiOk').style.display = 'block';
+    }
+    if (state.childName) document.getElementById('childName').value = state.childName;
+  }
+};
+</script>
+</body>
+</html>
