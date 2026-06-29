@@ -1679,31 +1679,73 @@ async function getShadowFeedback() {
     // Render output ke dalam struktur tabel terisolasi yang padat
     out.innerHTML = `
       <div class="table-isolate-wrapper">
-        <div class="table-container">
-          <table class="practice-table">
+        <div class="table-container" style="max-width: 100%">
+          <table class="practice-table" style="width: 100%; border-collapse: collapse;">
             <thead>
               <tr>
-                <th width="33%">🔍 Penyebab (Kenapa Terjadi)</th>
-                <th width="34%">🛠️ Teknik Coach (Tips & Contoh)</th>
-                <th width="33%">🎯 Latihan Konkret (Actionable)</th>
+                <th class="text-center" style="background-color: #f1f5f9; font-size: 14px; padding: 10px;">
+                  📊 Rapor Evaluasi Percakapan (${currentScenario})
+                </th>
               </tr>
             </thead>
             <tbody>
-              ${data.map(item => `
-                <tr>
-                  <td class="context-cell">${item.analisis}</td>
-                  <td>
-                    <div class="phrase-block main-phrase">
-                      <p>${item.teknik}</p>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="phrase-block alt-phrase">
-                      <p>${item.latihan}</p>
-                    </div>
-                  </td>
-                </tr>
-              `).join('')}
+              <!-- SCORE OVERALL -->
+              <tr>
+                <td class="text-center" style="padding: 15px !important; border-bottom: 2px solid #e2e8f0; text-align: center;">
+                  <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px;">Overall Speaking Score</span>
+                  <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 5px;">
+                    ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- FLUENCY -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🗣️ Fluency</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.fluency}</td>
+              </tr>
+      
+              <!-- VOCABULARY -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">📚 Vocabulary</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.vocabulary}</td>
+              </tr>
+      
+              <!-- COMMUNICATION -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🎯 Communication</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 2px solid #e2e8f0;">${data.communication}</td>
+              </tr>
+      
+              <!-- STRENGTHS -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">⭐ Strengths</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #0f766e; font-weight: 500; border-bottom: 1px solid #e2e8f0;">${data.strengths}</td>
+              </tr>
+      
+              <!-- FOCUS AREA -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">⚠️ Focus Area</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #991b1b; font-weight: 500; border-bottom: 1px solid #e2e8f0;">${data.focus}</td>
+              </tr>
+      
+              <!-- NEXT SCENARIO -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🚀 Next Scenario</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #0369a1; font-weight: 600;">${data.next_scenario}</td>
+              </tr>
             </tbody>
           </table>
         </div>
