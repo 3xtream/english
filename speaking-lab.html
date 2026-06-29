@@ -1678,34 +1678,40 @@ async function getShadowFeedback() {
 
     // Render output ke dalam struktur tabel terisolasi yang padat
     out.innerHTML = `
-      <div class="table-isolate-wrapper">
-        <div class="table-container">
-          <table class="practice-table">
-            <thead>
-              <tr>
-                <th width="33%">🔍 Penyebab (Kenapa Terjadi)</th>
-                <th width="34%">🛠️ Teknik Coach (Tips & Contoh)</th>
-                <th width="33%">🎯 Latihan Konkret (Actionable)</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${data.map(item => `
-                <tr>
-                  <td >${item.analisis}</td>
-                  <td>
-                    <div class="phrase-block main-phrase">
-                      <p>${item.teknik}</p>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="phrase-block alt-phrase">
-                      <p>${item.latihan}</p>
-                    </div>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+      <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="table-container" style="display: flex; flex-direction: column; gap: 16px;">
+          
+          ${data.map(item => `
+            <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+              
+              <div style="background-color: #f8fafc; padding: 10px 14px; border-bottom: 1px solid #e2e8f0;">
+                <div style="font-size: 11px; font-weight: bold; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">🔍 Penyebab (Kenapa Terjadi)</div>
+                <div style="color: #334155; font-size: 14px; line-height: 1.5;">
+                  ${item.analisis}
+                </div>
+              </div>
+              
+              <div style="padding: 12px 14px; border-bottom: 1px solid #f1f5f9;">
+                <div style="font-size: 11px; font-weight: bold; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase;">🛠️ Teknik Coach (Tips & Contoh)</div>
+                <div class="phrase-block main-phrase" style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 10px 12px; border-radius: 0 6px 6px 0;">
+                  <p style="margin: 0; color: #14532d; font-size: 14px; line-height: 1.5;">
+                    ${item.teknik}
+                  </p>
+                </div>
+              </div>
+              
+              <div style="padding: 12px 14px; background-color: #ffffff;">
+                <div style="font-size: 11px; font-weight: bold; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase;">🎯 Latihan Konkret (Actionable)</div>
+                <div class="phrase-block alt-phrase" style="background-color: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 10px 12px; border-radius: 0 6px 6px 0;">
+                  <p style="margin: 0; color: #0c4a6e; font-size: 14px; line-height: 1.5;">
+                    ${item.latihan}
+                  </p>
+                </div>
+              </div>
+      
+            </div>
+          `).join('')}
+      
         </div>
       </div>
     `;
