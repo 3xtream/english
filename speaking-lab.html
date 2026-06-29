@@ -1691,7 +1691,7 @@ async function getShadowFeedback() {
             <tbody>
               ${data.map(item => `
                 <tr>
-                  <td class="context-cell">${item.analisis}</td>
+                  <td >${item.analisis}</td>
                   <td>
                     <div class="phrase-block main-phrase">
                       <p>${item.teknik}</p>
@@ -1812,7 +1812,7 @@ async function generateNewPhrases() {
               
               <div style="padding: 12px 14px; background-color: #ffffff;">
                 <div style="font-size: 11px; font-weight: bold; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase;">💡 Kapan Digunakan</div>
-                <div class="context-cell" style="color: #475569; font-size: 14px; line-height: 1.5;">
+                <div  style="color: #475569; font-size: 14px; line-height: 1.5;">
                   ${item.usage}
                 </div>
               </div>
@@ -1869,7 +1869,7 @@ out.innerHTML = `
             </div>
             <div style="flex-grow: 1;">
               <div style="font-size: 11px; font-weight: bold; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">📌 Konteks Kerja (ID)</div>
-              <div class="context-cell" style="color: #334155; font-size: 14px; font-weight: 500; line-height: 1.4;">
+              <div  style="color: #334155; font-size: 14px; font-weight: 500; line-height: 1.4;">
                 ${item.konteks}
               </div>
             </div>
@@ -2019,12 +2019,12 @@ async function evaluateMonologue() {
           </div>
       
           <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #0f766e;">⭐ Yang Sudah Bagus</div>
-          <div class="context-cell" style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+          <div  style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
             ${data.good}
           </div>
       
           <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #991b1b;">⚠️ Area Improvement</div>
-          <div class="context-cell" style="padding: 12px 14px; color: #991b1b; font-weight: 500; font-size: 14px; border-bottom: 2px solid #e2e8f0; line-height: 1.5;">
+          <div  style="padding: 12px 14px; color: #991b1b; font-weight: 500; font-size: 14px; border-bottom: 2px solid #e2e8f0; line-height: 1.5;">
             ${data.improve}
           </div>
       
@@ -2278,7 +2278,7 @@ async function endChat() {
                 <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🗣️ Fluency</th>
               </tr>
               <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.fluency}</td>
+                <td  style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.fluency}</td>
               </tr>
       
               <!-- VOCABULARY -->
@@ -2286,7 +2286,7 @@ async function endChat() {
                 <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">📚 Vocabulary</th>
               </tr>
               <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.vocabulary}</td>
+                <td  style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.vocabulary}</td>
               </tr>
       
               <!-- COMMUNICATION -->
@@ -2294,7 +2294,7 @@ async function endChat() {
                 <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🎯 Communication</th>
               </tr>
               <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 2px solid #e2e8f0;">${data.communication}</td>
+                <td  style="padding: 12px 14px !important; color: #475569; border-bottom: 2px solid #e2e8f0;">${data.communication}</td>
               </tr>
       
               <!-- STRENGTHS -->
@@ -2463,12 +2463,12 @@ async function getMentalPrep() {
           </div>
       
           <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🧠 Strategi Mental / Mindset</div>
-          <div class="context-cell" style="padding: 12px 14px; color: #334155; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+          <div  style="padding: 12px 14px; color: #334155; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
             ${data.mindset}
           </div>
       
           <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🎯 Target Sukses Realistis</div>
-          <div class="context-cell" style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+          <div  style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
             ${data.success}
           </div>
       
@@ -2546,12 +2546,12 @@ async function getDebrief() {
           </div>
       
           <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #0f766e;">🎉 Apa yang Berjalan Baik</div>
-          <div class="context-cell" style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+          <div  style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
             ${data.wins}
           </div>
       
           <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #0369a1;">📈 Progress Marker (Level)</div>
-          <div class="context-cell" style="padding: 12px 14px; color: #0369a1; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+          <div  style="padding: 12px 14px; color: #0369a1; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
             ${data.level_marker}
           </div>
       
@@ -2696,12 +2696,12 @@ async function askCoach() {
           </div>
       
           <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #334155;">🔍 Analisis Situasi</div>
-          <div class="context-cell" style="padding: 12px 14px; color: #334155; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+          <div  style="padding: 12px 14px; color: #334155; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
             ${data.analisis}
           </div>
       
           <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e40af;">🛠️ Saran Konkret & Actionable</div>
-          <div class="context-cell" style="padding: 12px 14px; color: #1e40af; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+          <div  style="padding: 12px 14px; color: #1e40af; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
             ${data.saran}
           </div>
       
