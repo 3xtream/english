@@ -2008,45 +2008,40 @@ async function evaluateMonologue() {
 
     // Render output ke dalam struktur tabel multi-kolom horizontal kaku
     out.innerHTML = `
-      <div class="table-isolate-wrapper">
-        <div class="table-container" style="max-width: 100%">
-          <table class="practice-table">
-            <thead>
-              <tr>
-                <th colspan="2" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
-                  📊 Rapor Evaluasi Monolog 60 Detik
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colspan="2" class="text-center" style="padding: 15px !important; border-bottom: 2px solid #e2e8f0;">
-                  <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px;">Fluency Score</span>
-                  <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 5px;">
-                    ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
-                  </div>
-                </td>
-              </tr>
-              
-              <tr style="background-color: #f8fafc;">
-                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">⭐ Yang Sudah Bagus</th>
-                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">⚠️ Area Improvement</th>
-              </tr>
-              <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #0f766e; font-weight: 500;">${data.good}</td>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #991b1b; font-weight: 500;">${data.improve}</td>
-              </tr>
-              
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🛠️ Quick Fix (Sesi Berikutnya)</th>
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🚀 Rekomendasi Topik Selanjutnya</th>
-              </tr>
-              <tr>
-                <td style="padding: 12px 14px !important; color: #334155;">${data.fix}</td>
-                <td style="padding: 12px 14px !important; color: #0369a1; font-weight: 600;">${data.next_topic}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="table-container" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff;">
+          
+          <div style="background-color: #f1f5f9; font-size: 14px; font-weight: bold; text-align: center; padding: 12px; border-bottom: 1px solid #e2e8f0;">
+            📊 Rapor Evaluasi Monolog 60 Detik
+          </div>
+          
+          <div style="padding: 20px; text-align: center; border-bottom: 2px solid #e2e8f0;">
+            <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px; background-color: #e0f2fe; color: #0369a1; border-radius: 4px; font-weight: 500;">Fluency Score</span>
+            <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 8px;">
+              ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
+            </div>
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #0f766e;">⭐ Yang Sudah Bagus</div>
+          <div class="context-cell" style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.good}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #991b1b;">⚠️ Area Improvement</div>
+          <div class="context-cell" style="padding: 12px 14px; color: #991b1b; font-weight: 500; font-size: 14px; border-bottom: 2px solid #e2e8f0; line-height: 1.5;">
+            ${data.improve}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🛠️ Quick Fix (Sesi Berikutnya)</div>
+          <div style="padding: 12px 14px; color: #334155; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.fix}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🚀 Rekomendasi Topik Selanjutnya</div>
+          <div style="padding: 12px 14px; color: #0369a1; font-weight: 600; font-size: 14px; line-height: 1.5;">
+            ${data.next_topic}
+          </div>
+      
         </div>
       </div>
     `;
@@ -2435,47 +2430,42 @@ async function getMentalPrep() {
 
     // Render output ke dalam struktur tabel multi-kolom horizontal kaku
     out.innerHTML = `
-      <div class="table-isolate-wrapper">
-        <div class="table-container" style="max-width: 100%">
-          <table class="practice-table">
-            <thead>
-              <tr>
-                <th colspan="2" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
-                  🧠 Mental Preparation & Action Plan
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="background-color: #f8fafc;">
-                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🧠 Strategi Mental / Mindset</th>
-                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🎯 Target Sukses Realistis</th>
-              </tr>
-              <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #334155;">${data.mindset}</td>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #0f766e; font-weight: 500;">${data.success}</td>
-              </tr>
-              
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🗣️ 5 Frasa Kunci (EN - ID)</th>
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">📋 Antisipasi Pertanyaan & Jawaban</th>
-              </tr>
-              <tr>
-                <td style="padding: 12px 14px !important; color: #1e40af; font-style: italic; white-space: pre-line;">${data.phrases}</td>
-                <td style="padding: 12px 14px !important; color: #475569; white-space: pre-line;">${data.questions}</td>
-              </tr>
-
-              <tr>
-                <td colspan="2" style="padding: 15px !important; border-top: 2px solid #e2e8f0; background-color: #fef2f2;">
-                  <div class="text-center">
-                    <span class="section-badge badge-error" style="font-size: 11px; padding: 4px 12px;">🚨 Panic Plan (Jika Tiba-Tiba Blank)</span>
-                    <p style="margin-top: 8px !important; color: #991b1b; font-weight: 500; font-size: 13.5px; line-height: 1.5 !important; text-align: left;">
-                      ${data.panic_plan}
-                    </p>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="table-container" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff;">
+          
+          <div style="background-color: #f1f5f9; font-size: 14px; font-weight: bold; text-align: center; padding: 12px; border-bottom: 1px solid #e2e8f0;">
+            🧠 Mental Preparation & Action Plan
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🧠 Strategi Mental / Mindset</div>
+          <div class="context-cell" style="padding: 12px 14px; color: #334155; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.mindset}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🎯 Target Sukses Realistis</div>
+          <div class="context-cell" style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.success}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🗣️ 5 Frasa Kunci (EN - ID)</div>
+          <div style="padding: 12px 14px; color: #1e40af; font-style: italic; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5; white-space: pre-line;">
+            ${data.phrases}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">📋 Antisipasi Pertanyaan & Jawaban</div>
+          <div style="padding: 12px 14px; color: #475569; font-size: 14px; border-bottom: 2px solid #e2e8f0; line-height: 1.5; white-space: pre-line;">
+            ${data.questions}
+          </div>
+      
+          <div style="padding: 15px; background-color: #fef2f2;">
+            <div style="text-align: center; margin-bottom: 8px;">
+              <span class="section-badge badge-error" style="font-size: 11px; padding: 4px 12px; background-color: #fca5a5; color: #991b1b; border-radius: 4px; font-weight: bold;">🚨 Panic Plan (Jika Tiba-Tiba Blank)</span>
+            </div>
+            <p style="margin: 0; color: #991b1b; font-weight: 500; font-size: 13.5px; line-height: 1.5; text-align: left;">
+              ${data.panic_plan}
+            </p>
+          </div>
+      
         </div>
       </div>
     `;
@@ -2523,45 +2513,43 @@ async function getDebrief() {
 
     // Render output ke dalam struktur tabel multi-kolom horizontal kaku
     out.innerHTML = `
-      <div class="table-isolate-wrapper">
-        <div class="table-container" style="max-width: 100%">
-          <table class="practice-table">
-            <thead>
-              <tr>
-                <th colspan="2" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
-                  📝 Post-Conversation Debrief Report
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="background-color: #f8fafc;">
-                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🎉 Apa yang Berjalan Baik</th>
-                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">📈 Progress Marker (Level)</th>
-              </tr>
-              <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #0f766e; font-weight: 500;">${data.wins}</td>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #0369a1; font-weight: 500;">${data.level_marker}</td>
-              </tr>
-              
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">⚖️ Momen Kritis (Titik Mentok)</th>
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🔍 Root Cause (Akar Masalah)</th>
-              </tr>
-              <tr>
-                <td style="padding: 12px 14px !important; color: #334155;">${data.critical_moments}</td>
-                <td style="padding: 12px 14px !important; color: #991b1b;">${data.root_cause}</td>
-              </tr>
-
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🛠️ Specific Fix (Rencana Latihan)</th>
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">🚀 Next Mission (Misi Selanjutnya)</th>
-              </tr>
-              <tr>
-                <td style="padding: 12px 14px !important; color: #1e40af; font-weight: 500;">${data.specific_fix}</td>
-                <td style="padding: 12px 14px !important; color: #115e59; font-weight: 600;">${data.next_mission}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="table-container" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff;">
+          
+          <div style="background-color: #f1f5f9; font-size: 14px; font-weight: bold; text-align: center; padding: 12px; border-bottom: 1px solid #e2e8f0;">
+            📝 Post-Conversation Debrief Report
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #0f766e;">🎉 Apa yang Berjalan Baik</div>
+          <div class="context-cell" style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.wins}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #0369a1;">📈 Progress Marker (Level)</div>
+          <div class="context-cell" style="padding: 12px 14px; color: #0369a1; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.level_marker}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #334155;">⚖️ Momen Kritis (Titik Mentok)</div>
+          <div style="padding: 12px 14px; color: #334155; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.critical_moments}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #991b1b;">🔍 Root Cause (Akar Masalah)</div>
+          <div style="padding: 12px 14px; color: #991b1b; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.root_cause}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e40af;">🛠️ Specific Fix (Rencana Latihan)</div>
+          <div style="padding: 12px 14px; color: #1e40af; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.specific_fix}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #115e59;">🚀 Next Mission (Misi Selanjutnya)</div>
+          <div style="padding: 12px 14px; color: #115e59; font-weight: 600; font-size: 14px; line-height: 1.5;">
+            ${data.next_mission}
+          </div>
+      
         </div>
       </div>
     `;
