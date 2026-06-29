@@ -1678,76 +1678,38 @@ async function getShadowFeedback() {
 
     // Render output ke dalam struktur tabel terisolasi yang padat
     out.innerHTML = `
-      <div class="table-isolate-wrapper">
-        <div class="table-container" style="max-width: 100%">
-          <table class="practice-table" style="width: 100%; border-collapse: collapse;">
-            <thead>
-              <tr>
-                <th class="text-center" style="background-color: #f1f5f9; font-size: 14px; padding: 10px;">
-                  📊 Rapor Evaluasi Percakapan (${currentScenario})
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- SCORE OVERALL -->
-              <tr>
-                <td class="text-center" style="padding: 15px !important; border-bottom: 2px solid #e2e8f0; text-align: center;">
-                  <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px;">Overall Speaking Score</span>
-                  <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 5px;">
-                    ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
-                  </div>
-                </td>
-              </tr>
+      <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="table-container" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff;">
+          
+          <div style="background-color: #f1f5f9; font-size: 14px; font-weight: bold; text-align: center; padding: 12px; border-bottom: 1px solid #e2e8f0;">
+            📊 Rapor Evaluasi Percakapan (${currentScenario})
+          </div>
+          
+          <div style="padding: 20px; text-align: center; border-bottom: 2px solid #e2e8f0;">
+            <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px; background-color: #e0f2fe; color: #0369a1; border-radius: 4px; font-weight: 500;">Overall Speaking Score</span>
+            <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 8px;">
+              ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
+            </div>
+          </div>
       
-              <!-- FLUENCY -->
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🗣️ Fluency</th>
-              </tr>
-              <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.fluency}</td>
-              </tr>
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🗣️ Fluency</div>
+          <div style="padding: 12px 14px; color: #475569; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">${data.fluency}</div>
       
-              <!-- VOCABULARY -->
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">📚 Vocabulary</th>
-              </tr>
-              <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.vocabulary}</td>
-              </tr>
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">📚 Vocabulary</div>
+          <div style="padding: 12px 14px; color: #475569; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">${data.vocabulary}</div>
       
-              <!-- COMMUNICATION -->
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🎯 Communication</th>
-              </tr>
-              <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 2px solid #e2e8f0;">${data.communication}</td>
-              </tr>
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🎯 Communication</div>
+          <div style="padding: 12px 14px; color: #475569; font-size: 14px; border-bottom: 2px solid #e2e8f0; line-height: 1.5;">${data.communication}</div>
       
-              <!-- STRENGTHS -->
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">⭐ Strengths</th>
-              </tr>
-              <tr>
-                <td style="padding: 12px 14px !important; color: #0f766e; font-weight: 500; border-bottom: 1px solid #e2e8f0;">${data.strengths}</td>
-              </tr>
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">⭐ Strengths</div>
+          <div style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">${data.strengths}</div>
       
-              <!-- FOCUS AREA -->
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">⚠️ Focus Area</th>
-              </tr>
-              <tr>
-                <td style="padding: 12px 14px !important; color: #991b1b; font-weight: 500; border-bottom: 1px solid #e2e8f0;">${data.focus}</td>
-              </tr>
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">⚠️ Focus Area</div>
+          <div style="padding: 12px 14px; color: #991b1b; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">${data.focus}</div>
       
-              <!-- NEXT SCENARIO -->
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🚀 Next Scenario</th>
-              </tr>
-              <tr>
-                <td style="padding: 12px 14px !important; color: #0369a1; font-weight: 600;">${data.next_scenario}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🚀 Next Scenario</div>
+          <div style="padding: 12px 14px; color: #0369a1; font-weight: 600; font-size: 14px; line-height: 1.5;">${data.next_scenario}</div>
+      
         </div>
       </div>
     `;
@@ -1834,32 +1796,34 @@ async function generateNewPhrases() {
 
     // Render output dalam bentuk struktur Tabel Multi-Kolom kaku
     out.innerHTML = `
-      <div class="table-isolate-wrapper">
-        <div class="table-container" style="max-width: 100%">
-          <table class="practice-table">
-            <thead>
-              <tr>
-                <th width="25%">📁 Kategori</th>
-                <th width="35%">🗣️ Expression / Phrase</th>
-                <th width="40%">💡 Kapan Digunakan</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${data.map(item => `
-                <tr>
-                  <td>
-                    <span class="section-badge badge-dark" style="font-size: 10px;">${item.category}</span>
-                  </td>
-                  <td style="color: #1e40af; font-weight: 600; font-style: italic; font-size: 14px;">
-                    "${item.phrase}"
-                  </td>
-                  <td class="context-cell" style="color: #475569;">
-                    ${item.usage}
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+      <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="table-container" style="display: flex; flex-direction: column; gap: 12px;">
+          
+          ${data.map(item => `
+            <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+              
+              <div style="background-color: #f8fafc; padding: 10px 14px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-size: 11px; font-weight: bold; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">📁 Kategori</span>
+                <span class="section-badge badge-dark" style="font-size: 11px; padding: 2px 8px; background-color: #1e293b; color: #ffffff; border-radius: 4px;">${item.category}</span>
+              </div>
+              
+              <div style="padding: 12px 14px; border-bottom: 1px solid #f1f5f9;">
+                <div style="font-size: 11px; font-weight: bold; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase;">🗣️ Expression / Phrase</div>
+                <div style="color: #1e40af; font-weight: 600; font-style: italic; font-size: 15px; line-height: 1.4;">
+                  "${item.phrase}"
+                </div>
+              </div>
+              
+              <div style="padding: 12px 14px; background-color: #ffffff;">
+                <div style="font-size: 11px; font-weight: bold; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase;">💡 Kapan Digunakan</div>
+                <div class="context-cell" style="color: #475569; font-size: 14px; line-height: 1.5;">
+                  ${item.usage}
+                </div>
+              </div>
+      
+            </div>
+          `).join('')}
+      
         </div>
       </div>
     `;
@@ -1897,37 +1861,43 @@ async function practicePhraseWithAI() {
 
     // Render output dalam bentuk struktur Tabel HTML yang kokoh dan terisolasi
 out.innerHTML = `
-  <div class="table-isolate-wrapper">
-    <div class="table-container">
-      <table class="practice-table">
-        <thead>
-          <tr>
-            <th width="8%">No</th>
-            <th width="42%">📌 Konteks Kerja (ID)</th>
-            <th width="50%">🗣️ Praktik Kalimat (EN)</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${data.map((item, index) => `
-            <tr>
-              <td class="text-center font-bold">${index + 1}</td>
-              <td class="context-cell">${item.konteks}</td>
-              <td>
-                <div class="phrase-block main-phrase">
-                  <small>Kalimat Utama:</small>
-                  <p>"${item.contoh}"</p>
-                </div>
-                <div class="phrase-block alt-phrase">
-                  <small>Variasi Alternatif:</small>
-                  <p>"${item.alternatif}"</p>
-                </div>
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
+  <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
+  <div class="table-container" style="display: flex; flex-direction: column; gap: 16px;">
+    
+    ${data.map((item, index) => `
+      <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+        
+        <div style="background-color: #f8fafc; padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: flex-start; gap: 10px;">
+          <div style="background-color: #1e293b; color: #ffffff; font-weight: bold; font-size: 12px; min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; flex-shrink: 0;">
+            ${index + 1}
+          </div>
+          <div style="flex-grow: 1;">
+            <div style="font-size: 11px; font-weight: bold; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">📌 Konteks Kerja (ID)</div>
+            <div class="context-cell" style="color: #334155; font-size: 14px; font-weight: 500; line-height: 1.4;">
+              ${item.konteks}
+            </div>
+          </div>
+        </div>
+        
+        <div style="padding: 14px; display: flex; flex-direction: column; gap: 12px; background-color: #ffffff;">
+          <div style="font-size: 11px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">🗣️ Praktik Kalimat (EN)</div>
+          
+          <div class="phrase-block main-phrase" style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 10px 12px; border-radius: 0 6px 6px 0;">
+            <small style="font-size: 11px; color: #166534; font-weight: bold; display: block; margin-bottom: 4px;">Kalimat Utama:</small>
+            <p style="margin: 0; color: #14532d; font-size: 15px; font-weight: 600; font-style: italic;">"${item.contoh}"</p>
+          </div>
+          
+          <div class="phrase-block alt-phrase" style="background-color: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 10px 12px; border-radius: 0 6px 6px 0;">
+            <small style="font-size: 11px; color: #075985; font-weight: bold; display: block; margin-bottom: 4px;">Variasi Alternatif:</small>
+            <p style="margin: 0; color: #0c4a6e; font-size: 15px; font-weight: 500; font-style: italic;">"${item.alternatif}"</p>
+          </div>
+        </div>
+
+      </div>
+    `).join('')}
+
   </div>
+</div>
 `;
 
   } catch (e) {
