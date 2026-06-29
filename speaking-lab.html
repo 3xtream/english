@@ -2663,36 +2663,33 @@ async function askCoach() {
 
     // Render output ke dalam struktur tabel multi-kolom horizontal kaku
     out.innerHTML = `
-      <div class="table-isolate-wrapper">
-        <div class="table-container" style="max-width: 100%">
-          <table class="practice-table">
-            <thead>
-              <tr>
-                <th colspan="2" class="text-center" style="background-color: #f1f5f9; font-size: 14px;">
-                  📋 AI Coach Consultation Response
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="background-color: #f8fafc;">
-                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🔍 Analisis Situasi</th>
-                <th width="50%" style="font-size: 12px; border-bottom: 1px solid #e2e8f0;">🛠️ Saran Konkret & Actionable</th>
-              </tr>
-              <tr>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #334155;">${data.analisis}</td>
-                <td class="context-cell" style="padding: 12px 14px !important; color: #1e40af; font-weight: 500;">${data.saran}</td>
-              </tr>
-              
-              <tr style="background-color: #f8fafc;">
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">📅 Rencana Tindakan / Jadwal</th>
-                <th style="font-size: 12px; border-top: 2px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">💖 Genuine Motivation</th>
-              </tr>
-              <tr>
-                <td style="padding: 12px 14px !important; color: #0369a1; font-weight: 500;">${data.rencana}</td>
-                <td style="padding: 12px 14px !important; color: #0f766e; font-style: italic;">${data.motivasi}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="table-container" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff;">
+          
+          <div style="background-color: #f1f5f9; font-size: 14px; font-weight: bold; text-align: center; padding: 12px; border-bottom: 1px solid #e2e8f0;">
+            📋 AI Coach Consultation Response
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #334155;">🔍 Analisis Situasi</div>
+          <div class="context-cell" style="padding: 12px 14px; color: #334155; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.analisis}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e40af;">🛠️ Saran Konkret & Actionable</div>
+          <div class="context-cell" style="padding: 12px 14px; color: #1e40af; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.saran}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #0369a1;">📅 Rencana Tindakan / Jadwal</div>
+          <div style="padding: 12px 14px; color: #0369a1; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">
+            ${data.rencana}
+          </div>
+      
+          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #0f766e;">💖 Genuine Motivation</div>
+          <div style="padding: 12px 14px; color: #0f766e; font-style: italic; font-size: 14px; line-height: 1.5;">
+            ${data.motivasi}
+          </div>
+      
         </div>
       </div>
     `;
