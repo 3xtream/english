@@ -1678,40 +1678,78 @@ async function getShadowFeedback() {
 
     // Render output ke dalam struktur tabel terisolasi yang padat
     out.innerHTML = `
-      <div class="table-isolate-wrapper" style="max-width: 100%; font-family: system-ui, -apple-system, sans-serif;">
-        <div class="table-container" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background-color: #ffffff;">
-          
-          <div style="background-color: #f1f5f9; font-size: 14px; font-weight: bold; text-align: center; padding: 12px; border-bottom: 1px solid #e2e8f0;">
-            📊 Rapor Evaluasi Percakapan (${currentScenario})
-          </div>
-          
-          <div style="padding: 20px; text-align: center; border-bottom: 2px solid #e2e8f0;">
-            <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px; background-color: #e0f2fe; color: #0369a1; border-radius: 4px; font-weight: 500;">Overall Speaking Score</span>
-            <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 8px;">
-              ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
-            </div>
-          </div>
-      
-          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🗣️ Fluency</div>
-          <div style="padding: 12px 14px; color: #475569; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">${data.fluency}</div>
-      
-          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">📚 Vocabulary</div>
-          <div style="padding: 12px 14px; color: #475569; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">${data.vocabulary}</div>
-      
-          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🎯 Communication</div>
-          <div style="padding: 12px 14px; color: #475569; font-size: 14px; border-bottom: 2px solid #e2e8f0; line-height: 1.5;">${data.communication}</div>
-      
-          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">⭐ Strengths</div>
-          <div style="padding: 12px 14px; color: #0f766e; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">${data.strengths}</div>
-      
-          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">⚠️ Focus Area</div>
-          <div style="padding: 12px 14px; color: #991b1b; font-weight: 500; font-size: 14px; border-bottom: 1px solid #e2e8f0; line-height: 1.5;">${data.focus}</div>
-      
-          <div style="background-color: #f8fafc; font-size: 12px; font-weight: bold; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b;">🚀 Next Scenario</div>
-          <div style="padding: 12px 14px; color: #0369a1; font-weight: 600; font-size: 14px; line-height: 1.5;">${data.next_scenario}</div>
-      
-        </div>
-      </div>
+      <div class="table-isolate-wrapper">
+        <div class="table-container" style="max-width: 100%">
+          <table class="practice-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th class="text-center" style="background-color: #f1f5f9; font-size: 14px; padding: 10px;">
+                  📊 Rapor Evaluasi Percakapan (${currentScenario})
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- SCORE OVERALL -->
+              <tr>
+                <td class="text-center" style="padding: 15px !important; border-bottom: 2px solid #e2e8f0; text-align: center;">
+                  <span class="section-badge badge-info" style="font-size: 12px; padding: 4px 12px;">Overall Speaking Score</span>
+                  <div style="font-size: 32px; font-weight: 800; color: #1e3a8a; margin-top: 5px;">
+                    ${data.score} <span style="font-size: 16px; color: #94a3b8; font-weight: normal;">/ 10</span>
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- FLUENCY -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🗣️ Fluency</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.fluency}</td>
+              </tr>
+      
+              <!-- VOCABULARY -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">📚 Vocabulary</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 1px solid #e2e8f0;">${data.vocabulary}</td>
+              </tr>
+      
+              <!-- COMMUNICATION -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🎯 Communication</th>
+              </tr>
+              <tr>
+                <td class="context-cell" style="padding: 12px 14px !important; color: #475569; border-bottom: 2px solid #e2e8f0;">${data.communication}</td>
+              </tr>
+      
+              <!-- STRENGTHS -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">⭐ Strengths</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #0f766e; font-weight: 500; border-bottom: 1px solid #e2e8f0;">${data.strengths}</td>
+              </tr>
+      
+              <!-- FOCUS AREA -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">⚠️ Focus Area</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #991b1b; font-weight: 500; border-bottom: 1px solid #e2e8f0;">${data.focus}</td>
+              </tr>
+      
+              <!-- NEXT SCENARIO -->
+              <tr style="background-color: #f8fafc;">
+                <th style="font-size: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; padding: 8px 14px;">🚀 Next Scenario</th>
+              </tr>
+              <tr>
+                <td style="padding: 12px 14px !important; color: #0369a1; font-weight: 600;">${data.next_scenario}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     `;
 
   } catch (e) {
