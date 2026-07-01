@@ -1221,7 +1221,7 @@ pre.grammar-formula.amber { border-color: var(--amber); color: var(--amber-dim);
 // ═══════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════
-let apiKey = localStorage.getItem('ep_gemini_key') || '';
+let apiKey = localStorage.getItem('gemini_api_key') || '';
 let currentTrack = '';   // 'beginner' | 'advanced'
 let currentStage = 0;
 let selectedTopic = null;
@@ -1243,7 +1243,7 @@ function saveApiKey() {
   const val = document.getElementById('apiKeyInput').value.trim();
   if (!val) { showToast('Masukkan API key terlebih dahulu'); return; }
   apiKey = val;
-  localStorage.setItem('ep_gemini_key', val);
+  localStorage.setItem('gemini_api_key', val);
   document.getElementById('apiStatus').textContent = '✓ API key tersimpan!';
   document.getElementById('apiStatus').className = 'api-status ok';
   showToast('API key tersimpan ✓');
